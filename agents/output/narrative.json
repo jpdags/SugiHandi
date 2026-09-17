@@ -1,0 +1,154 @@
+{
+  "game_title": "Sugihandi",
+  "tagline": "In the shadow of the broken sky, remembrance is our only sanctuary.",
+  "story_synopsis": "After a violent, unnatural tempest shatters the coastal settlements of the Panay-adjacent archipelago, a nameless villager wakes upon the salt-scoured shore with no memory of their lineage or the storm's origin. Amid shattered barangay structures and terrified survivors, the player must forage, farm, and engage in delicate barter trade to rebuild the ruined village while unearthing lost oral histories. As the fog clears, strange bioluminescent flora and silent spirit-whispers reveal that the catastrophe was no ordinary monsoon, but a spiritual fracture caused by a broken ancestral oath. To save their people from permanent unraveling, the player must navigate factional divides, fulfill traditional rituals, and weave together the fragmented memories of the living and the dead.",
+  "core_themes": [
+    "Collective memory as survival and identity",
+    "Grief and communal resilience in times of crisis",
+    "Animism and human reciprocity with nature",
+    "The fragility of social oaths and ancestral legacy"
+  ],
+  "the_storm_truth": "The storm was not a natural disaster nor divine punishment, but the violent resonance of a shattered 'Lagda'—a sacred ancestral copper plate covenant that bound the cosmic hunger of the Bakunawa (the celestial serpent) beneath the trench. Generations ago, the island's founders sealed the creature using their unified memories as living anchors. As modern barangays drifted into factional greed and forgotten rituals, the oath dissolved. The tempest was the serpent's breath leaking through the ruptured seal, consuming the islanders' shared memories to fuel its rebirth. The player's lost memory is the direct result of carrying the final shard of the ancestral oath.",
+  "characters": [
+    {
+      "name": "Datu Kalaw",
+      "role": "Chieftain of the Coastal Barangay",
+      "backstory": "A battle-weary leader who lost his eldest son and half his fleet during the night of the tempest. He struggles to maintain authority through traditional law while famine threatens his people.",
+      "motivation": "To restore order, feed his people through trade and agriculture, and prevent his barangay from fracturing into warring bands.",
+      "relationship_to_player": "Acts as a stern mentor and authority figure who grants land rights in exchange for the player's assistance in village rebuilding."
+    },
+    {
+      "name": "Babaylan Alunsina",
+      "role": "Elder Shaman and Spirit Medium",
+      "backstory": "An revered herbalist and ritualist whose connection to the Anito (ancestral spirits) was severed when the storm struck, leaving her hearing only agonizing static from the spirit world.",
+      "motivation": "To mend the spiritual tether between the living and the dead before corrupt Anito transform into hostile Aswang.",
+      "relationship_to_player": "Recognizes the player's unique spiritual emptiness as a vessel capable of holding lost memories and guides their ritual journeys."
+    },
+    {
+      "name": "Limbas",
+      "role": "Outcast Navigator and Seafaring Trader",
+      "backstory": "A skilled Karakoa captain from a neighboring islet who survived the storm at sea. He possesses rare trade goods but refuses to settle in any permanent village.",
+      "motivation": "To barter exotic materials, map the altered sea currents, and search for his missing crew.",
+      "relationship_to_player": "A pragmatic trade partner who provides access to foreign goods and deep-sea fishing grounds in exchange for rare forged commodities."
+    },
+    {
+      "name": "Dayang Mayari",
+      "role": "Artisan and Lore-Keeper",
+      "backstory": "A master weaver and goldsmith who lost her entire workshop during the deluge. She is one of the few who can still read and etch the ancient Surat script on bamboo tags.",
+      "motivation": "To record every survivor's story before their memories fade into the storm's mist.",
+      "relationship_to_player": "A compassionate confidante who crafts key narrative items and unlocks lore entries as the player brings her recovered artifacts."
+    },
+    {
+      "name": "Bagani Baya",
+      "role": "War Band Commander",
+      "backstory": "A former champion warrior who believes Datu Kalaw's diplomatic barter system is too weak for post-disaster survival. He advocates for armed expansion and resource seizure.",
+      "motivation": "To secure the island's remaining fertile highland terraces by force and purge foreign influences.",
+      "relationship_to_player": "A volatile rival who tests the player's resolve, offering martial rewards if the player aligns with his militaristic vision."
+    },
+    {
+      "name": "Ubag",
+      "role": "Orphaned Scavenger Child",
+      "backstory": "A silent child found wandering near the ancient Balete tree after the storm, completely unharmed yet unable to speak spoken words.",
+      "motivation": "To collect shiny trinkets, sea glass, and copper scraps to build miniature shrines across the island.",
+      "relationship_to_player": "A mysterious companion who leads the player to hidden foraging nodes and secret Anito altars."
+    }
+  ],
+  "factions": [
+    {
+      "name": "Kadatuan sa Baybay (Coastal Council)",
+      "description": "The traditional ruling class composed of chieftains, elders, and prominent maritime traders focused on civil order, barter trade networks, and agricultural recovery.",
+      "alignment": "Lawful Neutral",
+      "key_npcs": [
+        "Datu Kalaw",
+        "Dayang Mayari"
+      ]
+    },
+    {
+      "name": "Circle of the Anito",
+      "description": "A secluded fellowship of Babaylan mediums, herbalists, and spiritual devotees dedicated to appeasing enraged nature spirits and performing funerary rites for the unburied.",
+      "alignment": "Neutral Good",
+      "key_npcs": [
+        "Babaylan Alunsina",
+        "Ubag"
+      ]
+    },
+    {
+      "name": "Mga Pahimatngon (The Silent Guard)",
+      "description": "A radical isolationist military order formed by traumatized warriors who believe foreign trade and broken taboos summoned the storm. They seek to seal the island from all outsiders.",
+      "alignment": "Chaotic Neutral",
+      "key_npcs": [
+        "Bagani Baya"
+      ]
+    }
+  ],
+  "main_quest_arc": {
+    "title": "Ang Handumanan sa Dawa (The Memory of the Dawn)",
+    "type": "Main",
+    "synopsis": "The player must rebuild the destroyed barangay while gathering four shattered fragments of the Copper Lagda scattered across the island. By restoring trade routes, cultivating sacred crops, and conducting Anito rituals, the player gradually pieces together their own identity and learns how to reseal the Bakunawa's trench before the second tempest swallows the archipelago whole.",
+    "objectives": [
+      "Rebuild the central Barangay Longhouse and establish basic crop farming",
+      "Establish trade alliances between the Kadatuan and Limbas's seafaring fleet",
+      "Recover the three broken copper fragments from flooded caves and ancient burial sites",
+      "Perform the Sandugo (Blood Compact Ritual) to unite the divided factions",
+      "Descend into the Submerged Abyss to re-etch the sacred covenant upon the ocean bedrock"
+    ],
+    "reward": "Restoration of the archipelago's climate, unlocking the title of 'Handi-Labi' (Master Lore-Keeper), and securing the permanent survival of the unified barangay."
+  },
+  "side_quest_arcs": [
+    {
+      "title": "The Whispering Balete",
+      "type": "Side",
+      "synopsis": "Babaylan Alunsina notices corrupt spirit activity around a giant sacred Balete tree near the village perimeter. The player must forage specific medicinal herbs and craft spirit offerings to cleanse the site.",
+      "objectives": [
+        "Gather wild ginger, kamuning leaves, and coconut oil",
+        "Craft a consecrated Altar Bowl using clay and sea-salt",
+        "Defend the Balete shrine during a nighttime spirit ritual"
+      ],
+      "reward": "Anito's Blessing (increased crop yield in neighboring fields) and an ancient carved amulet."
+    },
+    {
+      "title": "Tides of the Lost Karakoa",
+      "type": "Side",
+      "synopsis": "Limbas requests aid in salvaging a sunken trade warship wrecked off the coral reef. The expedition requires deep-sea diving, repair materials, and negotiating with territorial reef spirits.",
+      "objectives": [
+        "Harvest tough rattan and bamboo timber for boat repairs",
+        "Dive into the coral wreckage to retrieve sealed earthen jars and brass gongs",
+        "Pacify the protective Diwata sa Karatong using rare barter goods"
+      ],
+      "reward": "Unlocks the Outrigger Canoe craftable blueprint and access to distant offshore fishing grounds."
+    },
+    {
+      "title": "Songs Etched on Bamboo",
+      "type": "Side",
+      "synopsis": "Dayang Mayari needs help gathering oral accounts from traumatized villagers across the island to re-establish the community's genealogical history.",
+      "objectives": [
+        "Interview five village elders across different settlements",
+        "Trade fine woven textiles for lost family heirlooms held by scavengers",
+        "Carve the collected oral chants onto bamboo strips using Surat script"
+      ],
+      "reward": "Unlocks historic village decorations, increased barter reputation with all factions, and a rare gold ornament."
+    }
+  ],
+  "lore_entries": [
+    {
+      "title": "The First Oath and the Copper Lagda",
+      "content": "Before the coming of iron or gold, the seven paramount chieftains met upon the white sands of Panay to forge a pact with the sky and sea. They etched their promises upon a plate of beaten copper—a Lagda—pledging that no barangay would hoard the fruits of the land while another starved. So long as barter remained fair and honor was kept in the Sandugo, the sky deities promised gentle rains and calm waters."
+    },
+    {
+      "title": "On the Nature of Anito and Aswang",
+      "content": "The Anito are not distant gods, but our own grandfathers, mothers, and the spirits residing within the balete trees, rivers, and mountains. When treated with respect, offerings of rice wine and betel nut, they guard our crops. But when forgotten or left unburied after disaster, their grief curdles into malice, transforming them into restless Anito-Aswang that haunt the midnight fogs."
+    },
+    {
+      "title": "The Shadow of Bakunawa",
+      "content": "Deep beneath the sea trenches slumbers the Bakunawa, the giant serpent of the deep whose hunger once consumed six of the seven original moons. The ancestors did not destroy the creature; they lulled it to sleep using the synchronized rhythm of brass gongs and the shared memory of the living. Should the song of memory ever stop, the serpent stirs, and its breath rises as a tempest that swallows islands whole."
+    },
+    {
+      "title": "The Custom of Barter and Handumanan",
+      "content": "In our islands, wealth is not measured by coin, for gold cannot be eaten when the monsoon rages. True wealth lies in Handumanan—remembrance held within heirloom beads, brass gongs, and woven fabrics. When two barangays exchange goods, they do not merely trade rice for fish; they exchange tokens of mutual reliance that bind their ancestors together."
+    },
+    {
+      "title": "The Way of the Babaylan",
+      "content": "The Babaylan is the bridge between the seen world of fields and boats and the unseen world of spirits. Through the trance chant (Pag-anito) and dance accompanied by small flat gongs, she steps into the spirit realm to negotiate health for the sick and rain for the rice paddies. A barangay without a Babaylan is like a boat without a rudder in open waters."
+    }
+  ]
+}

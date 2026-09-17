@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d199a0deab7aa7149b0d0d29b73724f7, type: 3}
+  m_Name: SceneConfig_ForestedHills
+  m_EditorClassIdentifier: Assembly-CSharp::SceneConfig
+  sceneName: ForestedHills
+  displayName: Kabukiran
+  locationSubtitle: 
+  bgmClip: {fileID: 0}
+  ambienceClip: {fileID: 0}
+  bgmVolume: 0.8
+  ambienceVolume: 0.4
+  atmosphere: 3
+  ambientColor: {r: 0.518, g: 0.733, b: 0.455, a: 1}
+  requiresPreviousQuestComplete: 0
+  activeQuestId: 
+  nextSceneName: SummaryScreen
+  spawnPointTag: PlayerSpawn

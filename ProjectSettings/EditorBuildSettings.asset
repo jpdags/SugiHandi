@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 46072d7e2de2a97479a7b6e577a061d6
+  - enabled: 1
+    path: Assets/Scenes/RiverVillage.unity
+    guid: 4a4d16dffe14fa546afc63cbf282b220
+  - enabled: 1
+    path: Assets/Scenes/TradePort.unity
+    guid: 9a24f91644b0e014e9da7d08e0bd583f
+  - enabled: 1
+    path: Assets/Scenes/SacredRuins.unity
+    guid: f091464d3d6127b4184ebbdcf5f0a381
+  - enabled: 1
+    path: Assets/Scenes/ForestedHills.unity
+    guid: 9f26ff1a0c6fca243b0892e67f724ac7
+  - enabled: 1
+    path: Assets/Scenes/SummaryScreen.unity
+    guid: bdd116a35f34eef4dbcbedaf401324a4
+  m_configObjects:
+    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d1f16cd407da534bba29f799f56795d, type: 3}
+  m_Name: Dialogue_Fisherman_Quest
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  startNodeId: node_0
+  npcName: Fisherman
+  nodes:
+  - nodeId: node_0
+    npcText: Hello traveler. I am the Fisherman. I know of the {Gabok}.
+    options:
+    - optionText: Tell me more.
+      npcResponse: It is a dangerous path. Seek the {balangay} for answers.
+      nextNodeId: node_1
+      narrativeConsequence: 
+      questStepIdToComplete: 
+    - optionText: Goodbye.
+      npcResponse: Farewell, {manaog}.
+      nextNodeId: 
+      narrativeConsequence: 
+      questStepIdToComplete: 
+    isEndNode: 0
+  - nodeId: node_1
+    npcText: What else do you wish to know?
+    options:
+    - optionText: I must go now.
+      npcResponse: May the spirits guide you.
+      nextNodeId: 
+      narrativeConsequence: 
+      questStepIdToComplete: 
+    isEndNode: 0

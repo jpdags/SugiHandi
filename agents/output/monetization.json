@@ -1,0 +1,98 @@
+{
+  "revenue_model": "Free-to-play base game with optional ethically-priced cosmetic items, audio-visual expansions, and narrative side-story DLC packs. Zero pay-to-win, zero energy systems, and zero predatory pressure tactics.",
+  "ethical_principles": [
+    "Strict Zero Pay-to-Win: All monetization is strictly limited to cosmetic customization, soundtracks, and side-story narrative expansions; no gameplay advantage can ever be purchased.",
+    "Cultural Preservation & Protection: Sacred, spiritual, and core historical cultural traditions are integrated authentically into the base game for all players and will never be paywalled or commercialized.",
+    "No Artificial Friction or Timers: The game never sells energy refills, speed-ups, inventory expansion fees, or time-gated skips, maintaining a calm, respect-first gameplay loop.",
+    "Transparent & Fair Pricing: All items are sold as direct-purchase microtransactions with clear real-world dollar prices. No obscure premium currency conversions or loot boxes."
+  ],
+  "iap_catalog": [
+    {
+      "name": "Handwoven Inabel Outfit Pack",
+      "category": "Cosmetic",
+      "price_usd": "$2.99",
+      "description": "A set of three traditional textile-inspired garments featuring intricate handwoven patterns for character customization.",
+      "is_pay_to_win": false
+    },
+    {
+      "name": "Ancestral Hearth Decoration Set",
+      "category": "Cosmetic",
+      "price_usd": "$3.99",
+      "description": "Decorative heirloom furniture, carved bamboo benches, and ambient oil lamps to customize your village meeting hall.",
+      "is_pay_to_win": false
+    },
+    {
+      "name": "Echoes of the Archipelago Original Soundtrack",
+      "category": "Expansion",
+      "price_usd": "$4.99",
+      "description": "Unlocks full high-fidelity soundtrack files, original kulintang music tracks, and an in-game village music player.",
+      "is_pay_to_win": false
+    },
+    {
+      "name": "Tales of the Ancient Seafarers Lore Expansion",
+      "category": "Expansion",
+      "price_usd": "$6.99",
+      "description": "An optional side-narrative chapter exploring forgotten island legends, complete with extra dialogue and interactive lore journals.",
+      "is_pay_to_win": false
+    },
+    {
+      "name": "Barangay Weaver's Wardrobe",
+      "category": "Cosmetic",
+      "price_usd": "$4.99",
+      "description": "A collection of ceremonial headwear, indigo-dyed shawls, and maritime accessory skins.",
+      "is_pay_to_win": false
+    },
+    {
+      "name": "Spirits of the Mangrove Haven Kit",
+      "category": "Cosmetic",
+      "price_usd": "$3.99",
+      "description": "Village flora decoration kit containing bioluminescent mangrove saplings, tidal stone sculptures, and garden paths.",
+      "is_pay_to_win": false
+    },
+    {
+      "name": "Voyager's Digital Artbook & Journal",
+      "category": "Expansion",
+      "price_usd": "$2.99",
+      "description": "In-game interactive art viewer featuring developer concept sketches, world maps, and developer commentary notes.",
+      "is_pay_to_win": false
+    },
+    {
+      "name": "Celestial Navigator Ensemble",
+      "category": "Cosmetic",
+      "price_usd": "$4.99",
+      "description": "Starlight-embroidered ceremonial garments and customizable star-chart sail trims for your trading vessel.",
+      "is_pay_to_win": false
+    }
+  ],
+  "seasonal_events": [
+    {
+      "name": "Habagat Monsoon Surge",
+      "description": "An in-game seasonal event aligned with the southwest monsoon cycle, introducing high-tide fishing mechanics and stormy trading routes.",
+      "exclusive_rewards": [
+        "Monsoon Storm Lantern Decoration",
+        "Rain-Woven Seafarer Cloak Cosmetic",
+        "Storm-Tide Commemorative Banner"
+      ]
+    },
+    {
+      "name": "Amihan Trade Winds Fair",
+      "description": "A seasonal event marking the cool northeast trade winds, featuring island merchant gatherings and traditional boat crafting challenges.",
+      "exclusive_rewards": [
+        "Amihan Breeze Sail Trim Cosmetic",
+        "Wind-Chime Bamboo Pavilion Decoration",
+        "Trader's Crest Tattoos Cosmetic"
+      ]
+    },
+    {
+      "name": "Paglakbay Celestial Equinox",
+      "description": "An astronomical seasonal cycle celebrating ancient star navigation traditions, unlocking nighttime sky observation quests for all players.",
+      "exclusive_rewards": [
+        "Astronavigator's Armillary Globe Decoration",
+        "Starlit Loom Tapestry",
+        "Constellation Weaver Robe Cosmetic"
+      ]
+    }
+  ],
+  "battle_pass_recommendation": "A traditional battle pass is NOT recommended due to FOMO mechanisms and daily grind pressure. If introduced, it must be a permanent, non-expiring 'Seafarer's Chronicle' progression path where players can unlock rewards at their own pace without time limits or paid skips.",
+  "ads_policy": "Zero mandatory or intrusive pop-up ads. Optional rewarded video ads are strictly prohibited to protect immersive narrative flow and respect player attention."
+}

@@ -1,0 +1,69 @@
+{
+  "art_style": "2D hand-painted illustrative art style combining expressive gouache textures with bold ink linework inspired by precolonial Visayan Baybayin calligraphy and Malay songket geometry. High-contrast silhouette layering reminiscent of traditional Wayang shadow puppetry meets atmospheric watercolor wash technique. Art direction prioritizes tactile digital-craft textures—raw bark cloth (tapa), woven rattan fibers, and oxidized gold leaf accents—optimized for high-contrast mobile OLED screens with deep blacks and vibrant jewel-toned pigments.",
+  "visual_inspirations": [
+    "Spiritfarer (Thunder Lotus Games) - Soft illustrative hand-drawn linework and emotional color staging",
+    "Gris (Nomada Studio) - Fluid atmospheric watercolor washes and expressive architectural silhouettes",
+    "Hades (Supergiant Games) - High-contrast rim lighting, graphic ink shadows, and dynamic character cut-ins",
+    "Oxenfree (Night School Studio) - Environmental sense of scale, moody color gradients, and atmospheric lighting",
+    "Fernando Amorsolo - Golden tropical naturalism and radiant fill lighting through humid foliage",
+    "Precolonial Visayan Batok & Kalinga Tattoo Traditions - Geometric line art and sacred body iconography",
+    "Maranao Okir & Tausug Ukkil Carvings - Flowing organic scrollwork and serpent-inspired leaf patterns",
+    "Traditional Malay Songket & Inabel Weaving - Intricate brocade metallic geometry and structured textile patterns"
+  ],
+  "color_palettes": [
+    {
+      "name": "Normal Day (Lush Tropical Serenity)",
+      "colors": [
+        "#0F382C",
+        "#2D6A4F",
+        "#74C69D",
+        "#F4A261",
+        "#E76F51",
+        "#2B2D42"
+      ],
+      "mood": "Warm, vibrant, tranquil tropical sanctuary brimming with lush flora and golden morning sunlight."
+    },
+    {
+      "name": "Approaching Storm (Tempest Dread)",
+      "colors": [
+        "#1D2D44",
+        "#3D5A80",
+        "#98C1D9",
+        "#5C6B73",
+        "#293241",
+        "#8D99AE"
+      ],
+      "mood": "Ominous, suffocating pressure with bruised indigo skies, wind-whipped teal foliage, and damp slate shadows."
+    },
+    {
+      "name": "Storm Aftermath (Devastated Ash & Ember)",
+      "colors": [
+        "#1A1A1A",
+        "#3A3A3A",
+        "#8C8C8C",
+        "#D94E34",
+        "#FF8C42",
+        "#2E1A1A"
+      ],
+      "mood": "Somber heartbreak and raw survival—charred timber ash grays punctuated by smoldering ember reds and bruised violet smoke."
+    },
+    {
+      "name": "Sacred Sanctuaries (Anito Mystic Glow)",
+      "colors": [
+        "#0B132B",
+        "#1C2541",
+        "#3A506B",
+        "#5BC0BE",
+        "#FFD166",
+        "#7209B7"
+      ],
+      "mood": "Ethereal, reverent luminescence featuring bioluminescent spirit teals, deep night indigo, and ancestral gold leaf brilliance."
+    }
+  ],
+  "character_design_direction": "Characters feature strong graphic silhouettes grounded in precolonial Southeast Asian attire and adornments. Clothing includes draped hand-woven malong, patterned bahag loincloths, woven rattan salakot headwear, and heavy gold ornaments (kamagi chains and calombiga armlets). Skin textures incorporate authentic Visayan batok geometric tattoos inked directly into character line art, serving as narrative markers of lineage and spirit affinity. Fabric textures display visible warp-and-weft weave patterns with songket metallic brocade trims. Silhouettes avoid Western medieval tropes or generic anime proportions, favoring earthy, grounded human anatomical proportions with exaggerated gesture lines.",
+  "environment_design_direction": "Environments feature multi-layered 2D parallax scenes emphasizing vertical depth for portrait orientation (1080x1920). Architecture showcases stilt-supported torogan and nipa structures built from bamboo, coconut timber, and thatch roofing, heavily distressed by storm forces (snapped rattan lashings, splintered teak beams). Foliage transitions seamlessly from vibrant Monstera, banana leaves, and banyan roots to mud-splattered, defoliated wreckage. Dynamic environmental props—wind-blown inked tapa banners, floating river offerings, and glowing spirit lamps—add visceral life. Foreground visual framing uses dark silhouette leaves and carved okir wooden pillars to establish depth of field.",
+  "ui_aesthetic": "The user interface is designed as a physical, touchable artifact crafted from raw materials of precolonial island life. Windows and panels resemble aged, fiber-rich tapa cloth stretched across carved dark teak framing. Decorative borders incorporate carved Maranao okir scrollwork and Visayan geometric tattoo motifs. Buttons and iconography look like hand-carved bone, mother-of-pearl, and hammered brass. Baybayin script brushwork serves as subtle visual iconography and flourish elements alongside clear modern typography. Toggle states illuminate with ancestral gold leaf sheen and bioluminescent spirit glow, optimized for OLED contrast.",
+  "animation_style": "Framerate-conscious 2D frame-by-frame animation mixed with skeletal cutout animation in Unity (using 2D Animation package). Motion features organic secondary physics—swaying cloth tassels, wind-whipped malong folds, hair flowing like tropical tide currents, and leaves drifting through heavy air. Keyframes emphasize weight, snap, and fluid weight transfers, drawing inspiration from traditional SEA dance movements (Pangalay and Singkil) and Wayang Kulit shadow puppet joints. Fluid spirit effects employ hand-drawn watercolor bleed transitions.",
+  "lighting_guidelines": "Lighting relies on dramatic chiaroscuro with high color contrast optimized for OLED displays. Dark areas feature deep, rich blacks (#0B0D12) rather than washed-out grays. Key light sources—piercing tropical sunlight, glowing embers, bioluminescent spirit flora, and ancestral gold artifacts—cast intense colored rim lighting across character silhouettes and atmospheric fog layers. Volumetric light shafts ('god rays') cut through humid storm air using additive alpha blend shaders, casting soft ambient gradient bounces onto wet timber and foliage surfaces.",
+  "cultural_accuracy_notes": "STRICT CULTURAL CONTROLS - DO NOT: 1) Conflate precolonial Philippine/Malay visual culture with post-colonial Spanish era attire (strictly prohibit Spanish Barong Tagalog, Maria Clara dresses, or 19th-century colonial combs). 2) Use generic Polynesian or Maori tribal tattoo patterns (Koru, Marquesan crosses) instead of authentic Visayan batok or Northern Luzon Kalinga geometric iconography. 3) Treat Baybayin script as decorative gibberish or flipped lettering—all script glyphs must be linguistically verified or used strictly as stylized abstract geometry. 4) Misappropriate sacred indigenous ritual motifs (such as specific Maranao Okir fern motifs reserved for royalty or sacred datus) as random floor decorations. 5) Default to 'pan-Asian' visual shorthand like Japanese torii gates, Chinese roof tiles, or Indian mandalas."
+}

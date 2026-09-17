@@ -1,0 +1,310 @@
+{
+  "core_gameplay_loop": "Designed for a 10-minute mobile session structured into four phases: 1) Morning Check (1.5 min): Harvest crops from paddy and swidden plots, collect coconut tuba sap, and inspect coastal fish traps; 2) Island Expedition & Trade (4 min): Set sail on an outrigger proa canoe to a neighboring island or reef, engaging in barter trade, hunting, or gathering; 3) Rebuilding & Crafting (2.5 min): Use collected rattan, timber, and fibers to craft items or contribute to communal village restoration (bayanihan); 4) Evening Rest & Trust Ritual (2 min): Gift surplus commodities to the communal pantry or village chieftain, boosting Village Trust before resting to refresh stamina for the next day cycle.",
+  "farming_mechanics": "Employs a dual plot system reflecting authentic precolonial island agriculture: Wet Paddy (Sawah) for water-intensive crops like Palay, requiring monsoon rains or manual irrigation; and Dry Swidden (Kaingin) for drought-tolerant roots like Kamote and Gabi. Soil health is managed through crop rotation and fish offal composting. Weather drives hydration—the Habagat monsoon automates watering, whereas the Amihan dry season demands bamboo irrigation work. Growth timers match session pacing, allowing crops to mature across 1-3 play sessions.",
+  "trading_mechanics": "A pure barter economy operating on relative value matrices rather than monetary currency. Merchants evaluate offers based on regional scarcity, utility, and seasonal demand—for example, coastal settlements overvalue timber and grains, while inland river communities overvalue salt, fish, and sea oils. The trading interface uses a visual balance scale that weighs offered goods against requested inventory. Players can perform haggling ('Tawad') or offer bonus ceremonial gifts to tip trade scales favorably.",
+  "day_night_cycle": "A 10-minute real-time day cycle divided into Morning (2 min - farming & trap prep), Midday (4 min - island voyages, foraging, bartering), Evening (2 min - crafting, communal dining, trust gifting), and Night (2 min - shelter fortification, storm warnings, stamina sleep). The climate transitions every 7 in-game days across three seasons: Amihan (Northeast Monsoon - clear skies, steady sailing), Habagat (Southwest Monsoon - heavy rains, boosted crop growth, turbulent seas), and Unos (Storm Season - devastating weather surges, isolated trade routes, emergency shelter preservation).",
+  "resources": [
+    {
+      "name": "Palay",
+      "tier": "Common",
+      "source": "Farming (Wet Paddy Plots)",
+      "uses": [
+        "Milled into rice food rations",
+        "Replanted as crop seed",
+        "Staple trade commodity for island barter"
+      ]
+    },
+    {
+      "name": "Bangus",
+      "tier": "Common",
+      "source": "Fishing (Coastal Traps & Fishponds)",
+      "uses": [
+        "Cooked for stamina restoration",
+        "Salted for long-term storage",
+        "Offered at village feasts"
+      ]
+    },
+    {
+      "name": "Rattan",
+      "tier": "Common",
+      "source": "Foraging (Jungle Canopy & Vines)",
+      "uses": [
+        "Crafting storage baskets and kaing hampers",
+        "Binding timber frames for village huts",
+        "Lashing outrigger proa canoes"
+      ]
+    },
+    {
+      "name": "Tuba",
+      "tier": "Uncommon",
+      "source": "Processing (Tapping Coconut Palm Sap)",
+      "uses": [
+        "Consumable stamina and morale drink",
+        "High-value barter hospitality gift",
+        "Distilled into ceremonial vinegar"
+      ]
+    },
+    {
+      "name": "Kamote",
+      "tier": "Common",
+      "source": "Farming (Dry Swidden Plots)",
+      "uses": [
+        "Emergency food source during dry seasons",
+        "Animal feed for livestock",
+        "Starch reserve for village pantry"
+      ]
+    },
+    {
+      "name": "Bulawan",
+      "tier": "Rare",
+      "source": "Exploration (Stream Panning & Deep Caves)",
+      "uses": [
+        "High-value prestige asset in barter trade",
+        "Chieftain tribute for major trust gains",
+        "Crafting ceremonial ornaments"
+      ]
+    },
+    {
+      "name": "Sinamay",
+      "tier": "Uncommon",
+      "source": "Crafting (Weaving Loom using Abaca Fiber)",
+      "uses": [
+        "Crafting durable sails for proa canoes",
+        "Tailoring village garments",
+        "Export commodity for distant island trade"
+      ]
+    },
+    {
+      "name": "Duyong Oil",
+      "tier": "Rare",
+      "source": "Fishing/Hunting (Deep Sea Reef Expeditions)",
+      "uses": [
+        "Fuel for night torches and village signal fires",
+        "Waterproofing wood sealant for hulls",
+        "Medicinal salve ingredient"
+      ]
+    },
+    {
+      "name": "Nipa Fronds",
+      "tier": "Common",
+      "source": "Foraging (Coastal Mangrove Swamps)",
+      "uses": [
+        "Thatching roofs for village structures",
+        "Weaving weather mats",
+        "Temporary storm shelter construction"
+      ]
+    },
+    {
+      "name": "Gabi",
+      "tier": "Common",
+      "source": "Farming/Foraging (Wetland Margins)",
+      "uses": [
+        "Nutritious root meal preparation",
+        "Famine crop reserve during Unos",
+        "Compost enrichment"
+      ]
+    },
+    {
+      "name": "Kalamay",
+      "tier": "Uncommon",
+      "source": "Processing (Buri Palm Sap Reduction)",
+      "uses": [
+        "Preserving seasonal wild fruits",
+        "High-energy travel rations",
+        "Luxury barter commodity"
+      ]
+    },
+    {
+      "name": "Kamagong Timber",
+      "tier": "Rare",
+      "source": "Logging (Deep Hardwood Rainforests)",
+      "uses": [
+        "Reinforcing proa canoe keels",
+        "Building storm-proof village chieftain halls",
+        "Crafting heavy tool and weapon handles"
+      ]
+    },
+    {
+      "name": "Agila",
+      "tier": "Sacred",
+      "source": "Foraging (Lightning-Struck Resin Trees)",
+      "uses": [
+        "Burning as ceremonial incense during village trust rituals",
+        "Diplomatic trading with foreign sea merchants",
+        "Calming weather hazards in local waters"
+      ]
+    },
+    {
+      "name": "Kasag",
+      "tier": "Uncommon",
+      "source": "Trapping (Mangrove Bamboo Crabbing Nets)",
+      "uses": [
+        "Feast dish ingredient for major trust rewards",
+        "Barter trade with inland river settlements",
+        "Bait for ocean predator fishing"
+      ]
+    },
+    {
+      "name": "Mutya Pearl",
+      "tier": "Sacred",
+      "source": "Exploration (Deep Barrier Reef Diving)",
+      "uses": [
+        "Ultimate value trade anchor asset",
+        "Village heritage artifact to permanently increase Trust cap",
+        "Unlocking top-tier crafting recipes"
+      ]
+    }
+  ],
+  "trade_routes": [
+    {
+      "name": "The Panay-Mindoro Passage (Purok Amihan)",
+      "goods_offered": [
+        "Sinamay Cloth",
+        "Tuba Wine",
+        "Salted Bangus"
+      ],
+      "goods_wanted": [
+        "Kamagong Timber",
+        "Palay Seeds",
+        "Kasag Mud Crab"
+      ],
+      "seasonal_notes": "Highly accessible during the Amihan monsoon. Sea routes become impassable during Unos when typhoon surges peak."
+    },
+    {
+      "name": "The Sulu Sea Trade Run (Purok Timog)",
+      "goods_offered": [
+        "Mutya Pearl",
+        "Duyong Oil",
+        "Agila Agarwood"
+      ],
+      "goods_wanted": [
+        "Palay",
+        "Sinamay Cloth",
+        "Kalamay Sugar"
+      ],
+      "seasonal_notes": "Southern traders face grain shortages before Unos; grain values jump by 200% during pre-storm stockpiling phases."
+    },
+    {
+      "name": "The Riverine Interior Route (Ilog Daco)",
+      "goods_offered": [
+        "Kamagong Timber",
+        "Rattan",
+        "Gabi Root"
+      ],
+      "goods_wanted": [
+        "Bangus",
+        "Kalamay Sugar",
+        "Salted Preserves"
+      ],
+      "seasonal_notes": "Swelling rivers during Habagat allow timber rafting downriver; dry months reduce the route to shallow canoe channels."
+    },
+    {
+      "name": "The Barrier Reef Atolls (Purok Dagat)",
+      "goods_offered": [
+        "Kasag Mud Crab",
+        "Duyong Oil",
+        "Sea Salt"
+      ],
+      "goods_wanted": [
+        "Nipa Fronds",
+        "Kamote",
+        "Tuba Wine"
+      ],
+      "seasonal_notes": "Atoll islanders suffer heavy shelter damage from storm surges; demand for Nipa fronds and Rattan spikes immediately post-Unos."
+    }
+  ],
+  "progression_tree": [
+    {
+      "skill_name": "Paddy Terracing",
+      "category": "Farming",
+      "description": "Unlocks wet-paddy layout options, boosting Palay harvest yields during the Habagat monsoon season.",
+      "unlock_condition": "Reach Village Trust Level 2 and harvest 50 Palay."
+    },
+    {
+      "skill_name": "Kaingin Rotation",
+      "category": "Farming",
+      "description": "Prevents soil depletion by alternating Kamote and Gabi crops, increasing dry plot growth speed by 25%.",
+      "unlock_condition": "Unlock Paddy Terracing and construct 3 farming plots."
+    },
+    {
+      "skill_name": "Fermentation Mastery",
+      "category": "Farming",
+      "description": "Allows processing coconut sap into aged Tuba wine and Buri palm sap into Kalamay sugar at the village hearth.",
+      "unlock_condition": "Reach Village Trust Level 3."
+    },
+    {
+      "skill_name": "Arnis Stance",
+      "category": "Combat",
+      "description": "Enables quick baston deflections to ward off aggressive jungle wildlife during foraging expeditions.",
+      "unlock_condition": "Craft 1 Rattan Training Baston."
+    },
+    {
+      "skill_name": "Harpoon Precision",
+      "category": "Combat",
+      "description": "Increases throwing accuracy and critical hit damage against ocean fauna and wild boars.",
+      "unlock_condition": "Defeat 5 wild beasts during island expeditions."
+    },
+    {
+      "skill_name": "Vanguard's Resolve",
+      "category": "Combat",
+      "description": "Reduces stamina drain when navigating treacherous weather hazards and animal ambushes.",
+      "unlock_condition": "Unlock Arnis Stance and reach Exploration Level 3."
+    },
+    {
+      "skill_name": "Barter Insight (Tawad)",
+      "category": "Trading",
+      "description": "Displays exact subjective value meters on trade scales, ensuring fair exchanges with foreign merchants.",
+      "unlock_condition": "Complete 10 successful island trade trades."
+    },
+    {
+      "skill_name": "Purok Cargo Capacity",
+      "category": "Trading",
+      "description": "Expands proa cargo slots and reduces trade voyage stamina consumption across open sea routes.",
+      "unlock_condition": "Unlock Barter Insight and visit 3 distinct island ports."
+    },
+    {
+      "skill_name": "Gift Economy (Pabahay)",
+      "category": "Trading",
+      "description": "Donating crafted surplus to village elders generates double Trust points compared to standard storehouse deposits.",
+      "unlock_condition": "Reach Village Trust Level 4."
+    },
+    {
+      "skill_name": "Rattan Basketry (Lala)",
+      "category": "Crafting",
+      "description": "Allows crafting of kaing hampers and woven pouches to expand personal inventory space.",
+      "unlock_condition": "Gather 30 Rattan vines."
+    },
+    {
+      "skill_name": "Abaca Loom Weaving",
+      "category": "Crafting",
+      "description": "Unlocks Sinamay cloth weaving on the village loom for durable proa sails and premium trade garments.",
+      "unlock_condition": "Construct a Village Loom and gather 20 Abaca fibers."
+    },
+    {
+      "skill_name": "Proa Shipwright",
+      "category": "Crafting",
+      "description": "Enables construction of heavy outrigger proa boats using Kamagong timber to cross storm-swollen outer routes.",
+      "unlock_condition": "Unlock Abaca Loom Weaving and acquire 10 Kamagong Timber."
+    },
+    {
+      "skill_name": "Coastal Navigation",
+      "category": "Exploration",
+      "description": "Reduces ocean travel time between island nodes by 25% and provides early weather warnings for Unos storms.",
+      "unlock_condition": "Craft a basic outrigger canoe and complete 5 sea trips."
+    },
+    {
+      "skill_name": "Deep Reef Diving",
+      "category": "Exploration",
+      "description": "Unlocks underwater diving spots along outer barrier reefs to harvest Duyong Oil and Mutya Pearls with extended breath.",
+      "unlock_condition": "Unlock Coastal Navigation and reach Village Trust Level 3."
+    },
+    {
+      "skill_name": "Canopy Foraging",
+      "category": "Exploration",
+      "description": "Increases gathering yields of rare forest assets such as Agila agarwood resin and wild honey from jungle canopies.",
+      "unlock_condition": "Fully explore 5 island sectors."
+    }
+  ],
+  "village_trust_system": "Village Trust is a collective socio-cultural metric ('Bayanihan System') that replaces individual monetary wealth. Players build Trust by depositing surplus food into the communal storehouse, rebuilding destroyed village dwellings, and gifting luxury items like Tuba or Agila during communal gatherings. Higher Trust tiers unlock community-assisted farming labor, access to shared village proa vessels, lower trade profit margins with allied islanders, and access to sacred crafting knowledge. Neglecting communal obligations or hoarding rare supplies during storm disasters triggers Trust decay, restricting progression until community reparations are made.",
+  "economy_balance_notes": "Economy balance relies on organic decay sinks and dynamic seasonal demand spikes rather than gold sinks. Raw organic goods decay over time if unpreserved (e.g., fresh Bangus spoils into low-grade fertilizer within 2 days unless salted or smoked), encouraging constant resource rotation. Supply and demand fluctuate dramatically around the storm cycle: pre-Unos periods cause massive demand spikes for preserved foods (Kalamay, dried fish) and shelter timber, while post-Unos recovery periods double the trade value of building materials (Nipa fronds, Rattan). Sacred non-perishables like Mutya Pearls and Agila resin serve as stable high-value trade anchors."
+}

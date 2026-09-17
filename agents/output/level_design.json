@@ -1,0 +1,137 @@
+{
+  "world_overview": "SugiHandi is set within the fictive precolonial archipelago of Kulintra, a vast tropical network of sea-bound barangays, highland sanctuaries, and maritime trade ports shattered by a catastrophic super-typhoon known as the Great Sugi-Bagyo. The world reflects precolonial Southeast Asian history, animist metaphysics, and indigenous maritime culture. The player steps into the sandals of a solitary survivor who awakens among the mud and shattered timber of their home coastal settlement. Through non-verbal environmental cues, ancient Baybayin-inspired markings, ruined altars, and adrift trading artifacts, the game explores themes of ecological disaster, ancestral reverence, cultural memory, and quiet endurance across a storm-devastated tropical paradise.",
+  "map_topology": "The Kulintra Archipelago is arranged in a non-linear hub-and-spoke oceanic topology. A central tempest sea basin, choked with treacherous coral reefs, sunken wreckage, and shifting fog banks, connects four distinct landmasses. Navigation relies on an upgraded traditional outrigger canoe (balangay). Ocean currents (Agas) and prevailing seasonal winds (Amihan and Habagat) dictate sea route accessibility. Shallow mangrove channels require lightweight bamboo rafts, while rough open-sea passages require deep-keeled balangay hulls fitted with woven abaca sails. Hidden sea passages (Lihim na Sabang) unlock as the player discovers ancient sea-charts, listens to wind-whistles at coastal shrines, or tides drop during dynamic lunar phases.",
+  "islands": [
+    {
+      "name": "Isla Sugi",
+      "biome": "Storm-Scarred Coastal Mangroves and Mudflat Settlement",
+      "description": "The starting island, once a thriving coastal barangay built on molave wood stilts over brackish estuaries. Now, it is a haunting landscape of splintered nipa huts, uprooted mangrove root systems, and ash-strewn mudflats swept by tide pools.",
+      "regions": [
+        "Sabang-Ili (River Mouth Settlement)",
+        "Bakawan-Gulay (Tangled Salt-Mangrove Basin)",
+        "Baybay-Abo (Ash-Swept Coral Shore)",
+        "Bundok-Anito (Lowland Shrine Ridge)"
+      ],
+      "points_of_interest": [
+        {
+          "name": "Wreckage of the Datu's Balangay",
+          "type": "Player Hub & Workshop",
+          "description": "The overturned hull of the village chieftain's flagship vessel, wedged between splintered palm trunks. Serves as the player's primary shelter, crafting station, and rest point.",
+          "unlock_condition": "Unlocked automatically during the prologue."
+        },
+        {
+          "name": "Scorched Pag-anito Shrine",
+          "type": "Ritual Site & Blessing Shrine",
+          "description": "A stone pedestal surrounded by burned woven rattan mats, cracked terracotta jars, and calcified palm offerings dedicated to the ancestral water spirits.",
+          "unlock_condition": "Requires crafting a basic obsidian knife to cut through dense tangled storm debris."
+        },
+        {
+          "name": "Sabang Silt Pier",
+          "type": "Nautical Launch Site",
+          "description": "A partially collapsed bamboo jetty extending into calm coastal waters, housing a repairable outrigger canoe hull.",
+          "unlock_condition": "Requires gathering 5 resilient hardwood timbers and resin from Bakawan-Gulay."
+        }
+      ],
+      "narrative_role": "Serves as the emotional anchor and tutorial zone, establishing the tragedy of the storm, basic survival crafting, and the player's motivation to search for surviving inter-island communities."
+    },
+    {
+      "name": "Mait-Estero",
+      "biome": "Silted Trade Atoll and Submerged Rice Terraces",
+      "description": "A flooded low-lying archipelago that was once the economic heartbeat of maritime trade in Kulintra. Submerged market stilts, floating celadon pottery, and choked silt channels now lie beneath calm, silt-laden turquoise waters.",
+      "regions": [
+        "Lawa-Guinto (Golden Silt Lagoon)",
+        "Kabayan-Luma (Foreign Trade Outpost)",
+        "Lusong-Palay (Inundated Terrace Slopes)",
+        "Karagatan-Lihim (Reef Ship Graveyard)"
+      ],
+      "points_of_interest": [
+        {
+          "name": "Guildhouse of the Chinese Trader",
+          "type": "Artifact Vault",
+          "description": "A partially submerged two-story wooden warehouse containing waterlogged trade manifests, strings of copper cash coins, and intact Song-dynasty celadon jars.",
+          "unlock_condition": "Requires obtaining the Bone Navigation Compass from Isla Sugi."
+        },
+        {
+          "name": "Submerged Baylan Sluice Gate",
+          "type": "Environmental Puzzle",
+          "description": "An ancient stone water gate adorned with carved serpent figures (Bakunawa) that once regulated agricultural freshwater flow across the terraces.",
+          "unlock_condition": "Requires acquiring the Bronze Lever from the Foreign Trade Outpost."
+        },
+        {
+          "name": "Ironwood Lookout Tower",
+          "type": "Cartography Point",
+          "description": "A towering watchtower built from rot-resistant ironwood, wrapped in strangler fig vines, offering a panoramic view of northern sea passages.",
+          "unlock_condition": "Requires clearing a nest of venomous sea snakes with smoke incense."
+        }
+      ],
+      "narrative_role": "Introduces the broader world context of foreign maritime trade, wealth inequality before the disaster, and the failure of commercial power against nature's fury."
+    },
+    {
+      "name": "Dambana-Raja",
+      "biome": "Highland Cloud Forest and Sacred Limestone Ravines",
+      "description": "A majestic mountainous island soaring above the storm fog. Pristine cloud forests, cascading waterfalls, and ancient megalithic burial grounds remain intact, preserved by sacred mountain geography.",
+      "regions": [
+        "Gubat-Amihan (Windward Cloud Jungle)",
+        "Kabuatan-Lalim (Deep Waterfall Chasm)",
+        "Tuktok-Anito (High Peak Spirit Sanctuary)",
+        "Banal-Guinto (Hidden Gold-Vein Ridge)"
+      ],
+      "points_of_interest": [
+        {
+          "name": "Sanctuary of the Golden Likha",
+          "type": "Lore Keep & Altar",
+          "description": "A cavernous limestone cathedral holding dozens of carved wooden idols (Likha/Tao-tao) with mother-of-pearl inset eyes, guarding gold funerary masks.",
+          "unlock_condition": "Requires the Cloud Sanctuary Seal from the Baylan hermit of Mait-Estero."
+        },
+        {
+          "name": "Chasm Rope Bridge Ruins",
+          "type": "Traversal Challenge",
+          "description": "The frayed remains of a suspended woven abaca bridge stretching over a mist-shrouded 200-foot ravine.",
+          "unlock_condition": "Requires gathering 4 bundles of braided high-altitude rope."
+        },
+        {
+          "name": "Linao-Bagsak Purification Pool",
+          "type": "Restoration Site",
+          "description": "A glowing crystal-clear spring where natural mineral waters purge exhaustion and empower the player's sea-blessing abilities.",
+          "unlock_condition": "Requires offering 3 pristine orchids found in Gubat-Amihan."
+        }
+      ],
+      "narrative_role": "Shifts the narrative focus from physical survival to spiritual recovery, ancestral wisdom, and learning the true mythological cause of the great storm."
+    },
+    {
+      "name": "Pulau Bato-Abo",
+      "biome": "Volcanic Ash Wasteland and Obsidian Caldera",
+      "description": "The epicenter of the geological and meteorological catastrophe. A stark, dramatic island of jagged black obsidian glass, smoking fumaroles, scorched ironwood stumps, and glowing lava tube caves.",
+      "regions": [
+        "Baybay-Uling (Charcoal Coastline)",
+        "Lawa-Kintab (Obsidian Glass Ravine)",
+        "Baitang-Apoy (Active Caldera Rim)",
+        "Gubat-Sunog (Scorched Basalt Forest)"
+      ],
+      "points_of_interest": [
+        {
+          "name": "The Great Geothermal Smelter",
+          "type": "Endgame Forge",
+          "description": "An ancient megalithic furnace built directly over a volcanic thermal vent, used by precolonial metallurgists to forge sacred bronze cannons (lantaka) and meteorite blades.",
+          "unlock_condition": "Requires wearing the Flame-Resistant Baylan Woven Cloak."
+        },
+        {
+          "name": "Dolmen Tomb of the First Rajah",
+          "type": "Ancient Dungeon / Narrative Peak",
+          "description": "A massive stone dolmen buried beneath volcanic tephra, housing the ancestral lineage relics, gold breastplates, and the final historical tablet of Kulintra.",
+          "unlock_condition": "Requires assembling four elemental carved stone discs gathered across all islands."
+        },
+        {
+          "name": "Caldera Ridge Summit",
+          "type": "Epilogue Viewpoint",
+          "description": "The highest cliff edge in the archipelago, where the storm clouds finally break to reveal sunlight streaming over the slowly rebuilding island world.",
+          "unlock_condition": "Requires completing the Ritual of Renewal at the First Rajah's Tomb."
+        }
+      ],
+      "narrative_role": "Climax of the journey. The player uncovers the dual nature of destruction and rebirth, using the volcanic ash as fertilizer for the archipelago's future revival."
+    }
+  ],
+  "exploration_progression": "Progression in SugiHandi is tied directly to the player's outrigger boat capabilities, tide levels, and survival gear. The game starts on Isla Sugi, where the player learns movement, gathering, and basic tool crafting. Repairing the balangay's primary outrigger allows travel across the calm inner lagoon to Mait-Estero. In Mait-Estero, acquiring trade tools, heavy ironwood planks, and nautical charts enables the player to reinforce the boat's hull to navigate the rough open-sea currents protecting Dambana-Raja. Reaching the high peaks of Dambana-Raja yields sacred blessings, spirit charms, and heat-resistant weaves required to endure the noxious gases and extreme terrain of Pulau Bato-Abo. Each unlocked island rewards the player with unique materials, expanding their navigational radius and uncovering deeper layers of the world's tragic lore.",
+  "environmental_storytelling": "Every location tells its story through spatial placement and visual artifacts rather than explicit text or NPC dialogue. Shattered balangay hulls angled toward open water show desperate escape attempts during the tempest. Terracotta burial jars broken open by mudslides reveal gold bead necklaces and brass armlets half-buried in river sand. Scorched woven banana leaves beside cold fire pits indicate rushed, unsuccessful ritual offerings to appease the sea spirits (Anito). Baybayin symbols carved into basalt cliffs mark safe freshwater springs or warn of dangerous shoals. In flooded trade posts, floating silk bolts intertwined with rotting nipa palm roofs convey the suddenness with which the typhoon destroyed centuries of built civilization.",
+  "storm_affected_zones": "The Great Sugi-Bagyo leaves distinct ecological scars across each zone. High-impact windward shores feature stripped palm trees bent at unnatural angles, ash-gray soil profiles, and stranded sea life atop highland cliffs. River estuaries suffer from heavy siltation, turning once-vibrant blue lagoons into muddy channels filled with tangled forest debris. Conversely, low-lying volcanic zones exhibit stark contrasts between desolate obsidian fields and hyper-vibrant flora—glowing fungi, neon ferns, and wild orchids rapidly sprouting from nutrient-rich volcanic ash. Dynamic weather systems cycle through lingering drizzle, heavy tropical downpours, and brief bursts of piercing tropical sunlight, symbolizing the ongoing struggle and gradual healing of the natural world."
+}

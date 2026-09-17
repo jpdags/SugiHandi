@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags:
+  - PlayerSpawn
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Ground-Base
+    uniqueID: 3359744249
+    locked: 0
+  - name: Ground-Grass
+    uniqueID: 3716286559
+    locked: 0
+  - name: Sea
+    uniqueID: 2526132879
+    locked: 0
+  - name: Sand-Base
+    uniqueID: 636722049
+    locked: 0
+  - name: Player
+    uniqueID: 807967909
+    locked: 0
+  - name: Sand-Obstacle
+    uniqueID: 1991205539
+    locked: 0
+  - name: Ground-Obstacle
+    uniqueID: 1677294271
+    locked: 0
+  m_RenderingLayers:
+  - Default
+  m_MigratedRenderPipelines: []

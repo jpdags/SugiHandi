@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6badcb378fba154dbc1a7a357a8a0a5, type: 3}
+  m_Name: DialogueDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueDatabase
+  dialogueEntries:
+  - triggerId: Elder_Greeting
+    dialogueData: {fileID: 11400000, guid: b7e227bdd50126f43bee5bd40c5b868b, type: 2}
+  - triggerId: Fisherman_Quest
+    dialogueData: {fileID: 11400000, guid: 195f4c0603f858640a33b60e9243c917, type: 2}
+  - triggerId: Merchant_Trade
+    dialogueData: {fileID: 11400000, guid: bceb3de08bb8325488ccf30d864f966f, type: 2}
