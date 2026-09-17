@@ -20,13 +20,16 @@ Pixel art specs for layout:
 
 import asyncio
 import json
-import re
 import os
 from pathlib import Path
 
 from dotenv import load_dotenv
 from google.antigravity import Agent, LocalAgentConfig
 from google.antigravity.types import TemplatedSystemInstructions
+
+from schemas import LevelDesign
+from utils import extract_json, get_default_retry_config, run_with_timeout_and_retry, save_raw_response
+from validators import validate_demo_scope
 
 load_dotenv(Path(__file__).parent / ".env")
 
@@ -140,42 +143,46 @@ Output ONLY the JSON object. No markdown. No explanation. No code fences.
 """
 
 
-def extract_json(text: str) -> dict:
-    text = text.strip()
-    text = re.sub(r'^```(?:json)?\s*', '', text, flags=re.MULTILINE)
-    text = re.sub(r'\s*```$', '', text, flags=re.MULTILINE)
-    text = text.strip()
-    start = text.find('{')
-    if start == -1:
-        raise ValueError("No JSON object found in response")
-    depth = 0
-    end = -1
-    for i in range(start, len(text)):
-        if text[i] == '{':
-            depth += 1
-        elif text[i] == '}':
-            depth -= 1
-            if depth == 0:
-                end = i + 1
-                break
-    if end == -1:
-        raise ValueError("Malformed JSON — no matching closing brace")
-    return json.loads(text[start:end])
-
-
-async def run_level_design_agent() -> dict:
-    """Run the level design specialist agent and return structured output."""
+async def _execute_level_design_agent() -> dict:
+    """Core level design agent execution with native schema & fallback extraction."""
     config = LocalAgentConfig(
         system_instructions=TemplatedSystemInstructions(identity=IDENTITY),
+        response_schema=LevelDesign,
+        retry_config=get_default_retry_config(),
     )
 
     async with Agent(config) as agent:
         print("[Level Design Agent] Generating demo scene layout for maritime Butuan...")
         response = await agent.chat(LEVEL_DESIGN_PROMPT)
-        text = await response.text()
-        data = extract_json(text)
+
+        structured = await response.structured_output()
+        if structured:
+            if isinstance(structured, dict):
+                data = structured
+            else:
+                data = structured.model_dump() if hasattr(structured, "model_dump") else dict(structured)
+            save_raw_response("level_design", json.dumps(data, indent=2, ensure_ascii=False))
+        else:
+            text = await response.text()
+            save_raw_response("level_design", text)
+            data = extract_json(text)
+
+        validated = LevelDesign.model_validate(data)
+        validated_dict = validated.model_dump()
+        validate_demo_scope("level_design", validated_dict)
         print("[Level Design Agent] Complete")
-        return data
+        return validated_dict
+
+
+async def run_level_design_agent(timeout_seconds: float = 120.0, max_attempts: int = 2) -> dict:
+    """Run the level design specialist agent with timeout, retry backoff, and schema validation."""
+    return await run_with_timeout_and_retry(
+        agent_name="Level Design Agent",
+        action=_execute_level_design_agent,
+        schema_cls=LevelDesign,
+        timeout_seconds=timeout_seconds,
+        max_attempts=max_attempts,
+    )
 
 
 if __name__ == "__main__":

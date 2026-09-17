@@ -15,12 +15,15 @@ in English dialogue — meaning comes from context, gesture cues, and quest outc
 import asyncio
 import json
 import os
-import re
 from pathlib import Path
 
 from dotenv import load_dotenv
 from google.antigravity import Agent, LocalAgentConfig
 from google.antigravity.types import TemplatedSystemInstructions
+
+from schemas import NarrativeDesign
+from utils import extract_json, get_default_retry_config, run_with_timeout_and_retry, save_raw_response
+from validators import validate_demo_scope
 
 load_dotenv(Path(__file__).parent / ".env")
 
@@ -149,43 +152,46 @@ Output ONLY the JSON object. No markdown. No explanation. No code fences.
 """
 
 
-def extract_json(text: str) -> dict:
-    """Extract JSON from agent response text, stripping markdown fences if present."""
-    text = text.strip()
-    text = re.sub(r'^```(?:json)?\s*', '', text, flags=re.MULTILINE)
-    text = re.sub(r'\s*```$', '', text, flags=re.MULTILINE)
-    text = text.strip()
-    start = text.find('{')
-    if start == -1:
-        raise ValueError("No JSON object found in response")
-    depth = 0
-    end = -1
-    for i in range(start, len(text)):
-        if text[i] == '{':
-            depth += 1
-        elif text[i] == '}':
-            depth -= 1
-            if depth == 0:
-                end = i + 1
-                break
-    if end == -1:
-        raise ValueError("Malformed JSON — no matching closing brace")
-    return json.loads(text[start:end])
-
-
-async def run_narrative_agent() -> dict:
-    """Run the narrative specialist agent and return structured output."""
+async def _execute_narrative_agent() -> dict:
+    """Core narrative agent execution with native schema & fallback extraction."""
     config = LocalAgentConfig(
         system_instructions=TemplatedSystemInstructions(identity=IDENTITY),
+        response_schema=NarrativeDesign,
+        retry_config=get_default_retry_config(),
     )
 
     async with Agent(config) as agent:
         print("[Narrative Agent] Generating Butuanon NPCs, dialogue, and Kodeks content...")
         response = await agent.chat(NARRATIVE_PROMPT)
-        text = await response.text()
-        data = extract_json(text)
+
+        structured = await response.structured_output()
+        if structured:
+            if isinstance(structured, dict):
+                data = structured
+            else:
+                data = structured.model_dump() if hasattr(structured, "model_dump") else dict(structured)
+            save_raw_response("narrative", json.dumps(data, indent=2, ensure_ascii=False))
+        else:
+            text = await response.text()
+            save_raw_response("narrative", text)
+            data = extract_json(text)
+
+        validated = NarrativeDesign.model_validate(data)
+        validated_dict = validated.model_dump()
+        validate_demo_scope("narrative", validated_dict)
         print("[Narrative Agent] Complete")
-        return data
+        return validated_dict
+
+
+async def run_narrative_agent(timeout_seconds: float = 120.0, max_attempts: int = 2) -> dict:
+    """Run the narrative specialist agent with timeout, retry backoff, and schema validation."""
+    return await run_with_timeout_and_retry(
+        agent_name="Narrative Agent",
+        action=_execute_narrative_agent,
+        schema_cls=NarrativeDesign,
+        timeout_seconds=timeout_seconds,
+        max_attempts=max_attempts,
+    )
 
 
 if __name__ == "__main__":

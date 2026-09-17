@@ -65,6 +65,7 @@ from systems_agent import run_systems_agent
 from level_design_agent import run_level_design_agent
 from art_director_agent import run_art_director_agent
 from unity_architecture_agent import run_unity_architecture_agent
+from schemas import GameDesignDocument
 
 OUTPUT_DIR = Path(__file__).parent / "output"
 OUTPUT_DIR.mkdir(exist_ok=True)
@@ -112,355 +113,385 @@ def build_gdd_markdown(
 
     # ── Narrative ────────────────────────────────────────────────────────────
     lines.append(h2("📖 Narrative Design"))
-    lines.append(f"{blockquote(narrative.get('setting_note', ''))}\n")
+    if not narrative:
+        lines.append(blockquote("*(Narrative Design data unavailable or agent failed)*\n"))
+    else:
+        if narrative.get("setting_note"):
+            lines.append(f"{blockquote(narrative.get('setting_note', ''))}\n")
 
-    lines.append(h3("NPCs (Demo Scene)"))
-    for npc in narrative.get("npcs", []):
-        lines.append(h4(f"{npc['name']} — *{npc['role']}*"))
-        lines.append(npc.get("personality", "") + "\n")
-        lines.append(bold("Butuanon words they use:"))
-        for word_context in npc.get("butuanon_words_they_use", []):
-            lines.append(bullet(word_context))
+        lines.append(h3("NPCs (Demo Scene)"))
+        npcs = narrative.get("npcs", [])
+        if not npcs:
+            lines.append("*(No NPCs specified)*\n")
+        for npc in npcs:
+            npc_name = npc.get("name", "Unnamed NPC")
+            npc_role = npc.get("role", "Role Unspecified")
+            lines.append(h4(f"{npc_name} — *{npc_role}*"))
+            if npc.get("personality"):
+                lines.append(npc.get("personality") + "\n")
+            lines.append(bold("Butuanon words they use:"))
+            for word_context in npc.get("butuanon_words_they_use", []):
+                lines.append(bullet(word_context))
+            lines.append("")
+
+            lines.append(bold("Dialogue Branches:"))
+            for branch in npc.get("dialogue_branches", []):
+                lines.append(f"\n- **Trigger:** {branch.get('trigger', 'Interaction')}")
+                lines.append(f"  *NPC:* \"{branch.get('npc_opening_line', '')}\"")
+                lines.append("  **Player options:**")
+                for opt in branch.get("player_options", []):
+                    lines.append(f"    - **→ {opt.get('option_text', '')}**")
+                    lines.append(f"      *NPC:* \"{opt.get('npc_response', '')}\"")
+                    lines.append(f"      *Consequence:* {opt.get('narrative_consequence', '')}")
+                    if opt.get("kodeks_entry_triggered"):
+                        lines.append(f"      *Kodeks logs:* {opt['kodeks_entry_triggered']}")
+            lines.append("")
+
+        lines.append(h3("Quest Chain"))
+        qc = narrative.get("quest_chain", {})
+        if qc:
+            lines.append(f"{bold(qc.get('title', 'Untitled Quest'))} — given by {bold(qc.get('quest_giver_npc', 'Unknown'))}\n")
+            lines.append(qc.get("synopsis", "") + "\n")
+            lines.append(bold("Steps:"))
+            for step in qc.get("steps", []):
+                s_num = step.get("step_number", 1)
+                lines.append(f"\n**Step {s_num}:** {step.get('objective', '')}")
+                lines.append(f"- *Completion trigger:* {step.get('completion_trigger', '')}")
+                lines.append(f"- *On complete:* \"{step.get('dialogue_on_completion', '')}\"")
+            lines.append(f"\n{bold('Reward:')} {qc.get('reward', '')}")
+            encountered = qc.get("butuanon_words_encountered_in_quest", [])
+            lines.append(f"\n{bold('Butuanon vocabulary encountered:')} {', '.join(encountered)}\n")
+
+        lines.append(h3("Environmental Texts (Inscriptions / Signage)"))
+        for env_text in narrative.get("environmental_texts", []):
+            lines.append(f"\n**{env_text.get('location', 'Location')}**")
+            lines.append(f"> *{env_text.get('text_content', '')}*")
+            lines.append(f"Kodeks note (shown post-scene): {env_text.get('cultural_note_for_kodeks', '')}\n")
+
+        lines.append(h3("Kodeks Seed Entries"))
+        for entry in narrative.get("kodeks_seed_entries", []):
+            lines.append(f"\n**{entry.get('word_or_phrase', '')}**")
+            lines.append(f"- *Scene context:* {entry.get('scene_context', '')}")
+            lines.append(f"- *Cultural significance:* {entry.get('cultural_significance', '')}")
         lines.append("")
 
-        lines.append(bold("Dialogue Branches:"))
-        for branch in npc.get("dialogue_branches", []):
-            lines.append(f"\n- **Trigger:** {branch.get('trigger', '')}")
-            lines.append(f"  *NPC:* \"{branch.get('npc_opening_line', '')}\"")
-            lines.append(f"  **Player options:**")
-            for opt in branch.get("player_options", []):
-                lines.append(f"    - **→ {opt['option_text']}**")
-                lines.append(f"      *NPC:* \"{opt['npc_response']}\"")
-                lines.append(f"      *Consequence:* {opt['narrative_consequence']}")
-                if opt.get("kodeks_entry_triggered"):
-                    lines.append(f"      *Kodeks logs:* {opt['kodeks_entry_triggered']}")
-        lines.append("")
-
-    lines.append(h3("Quest Chain"))
-    qc = narrative.get("quest_chain", {})
-    lines.append(f"{bold(qc.get('title', ''))} — given by {bold(qc.get('quest_giver_npc', ''))}\n")
-    lines.append(qc.get("synopsis", "") + "\n")
-    lines.append(bold("Steps:"))
-    for step in qc.get("steps", []):
-        lines.append(f"\n**Step {step['step_number']}:** {step['objective']}")
-        lines.append(f"- *Completion trigger:* {step['completion_trigger']}")
-        lines.append(f"- *On complete:* \"{step['dialogue_on_completion']}\"")
-    lines.append(f"\n{bold('Reward:')} {qc.get('reward', '')}")
-    lines.append(f"\n{bold('Butuanon vocabulary encountered:')} {', '.join(qc.get('butuanon_words_encountered_in_quest', []))}\n")
-
-    lines.append(h3("Environmental Texts (Inscriptions / Signage)"))
-    for env_text in narrative.get("environmental_texts", []):
-        lines.append(f"\n**{env_text['location']}**")
-        lines.append(f"> *{env_text['text_content']}*")
-        lines.append(f"Kodeks note (shown post-scene): {env_text['cultural_note_for_kodeks']}\n")
-
-    lines.append(h3("Kodeks Seed Entries"))
-    for entry in narrative.get("kodeks_seed_entries", []):
-        lines.append(f"\n**{entry['word_or_phrase']}**")
-        lines.append(f"- *Scene context:* {entry['scene_context']}")
-        lines.append(f"- *Cultural significance:* {entry['cultural_significance']}")
-    lines.append("")
-
-    lines.append(h3("Lore Notes (Butuan History)"))
-    for note in narrative.get("lore_notes", []):
-        lines.append(f"\n**{note['title']}**")
-        lines.append(note.get("content", "") + "\n")
+        lines.append(h3("Lore Notes (Butuan History)"))
+        for note in narrative.get("lore_notes", []):
+            lines.append(f"\n**{note.get('title', 'Historical Note')}**")
+            lines.append(note.get("content", "") + "\n")
 
     lines.append(hr())
 
     # ── Systems ──────────────────────────────────────────────────────────────
     lines.append(h2("⚙️ Gameplay Mechanics Design"))
+    if not systems:
+        lines.append(blockquote("*(Systems Design data unavailable or agent failed)*\n"))
+    else:
+        lines.append(h3("Game Loop"))
+        lines.append(systems.get("game_loop_overview", "") + "\n")
 
-    lines.append(h3("Game Loop"))
-    lines.append(systems.get("game_loop_overview", "") + "\n")
+        lines.append(h3("5.1 Tap-to-Move / Tap-to-Interact"))
+        ttm = systems.get("tap_to_move_spec", {})
+        lines.append(ttm.get("description", "") + "\n")
+        lines.append(f"- {bold('Unity implementation:')} {ttm.get('unity_implementation_notes', '')}")
+        lines.append(f"- {bold('Pathfinding:')} {ttm.get('pathfinding_approach', '')}")
+        lines.append(f"- {bold('Interact radius:')} {ttm.get('interact_trigger_radius', '')}\n")
 
-    lines.append(h3("5.1 Tap-to-Move / Tap-to-Interact"))
-    ttm = systems.get("tap_to_move_spec", {})
-    lines.append(ttm.get("description", "") + "\n")
-    lines.append(f"- {bold('Unity implementation:')} {ttm.get('unity_implementation_notes', '')}")
-    lines.append(f"- {bold('Pathfinding:')} {ttm.get('pathfinding_approach', '')}")
-    lines.append(f"- {bold('Interact radius:')} {ttm.get('interact_trigger_radius', '')}\n")
+        lines.append(h3("5.2 Branching Dialogue System"))
+        bd = systems.get("branching_dialogue_spec", {})
+        lines.append(bd.get("description", "") + "\n")
+        lines.append(f"- {bold('Options per node:')} {bd.get('options_per_node', '')}")
+        lines.append(f"- {bold('Butuanon rule:')} {bd.get('butuanon_embedding_rule', '')}")
+        lines.append(f"- {bold('No-translation rule:')} {bd.get('no_translation_rule', '')}")
+        lines.append(f"- {bold('Data format:')} {bd.get('dialogue_data_format', '')}")
+        lines.append(f"- {bold('Unity notes:')} {bd.get('unity_implementation_notes', '')}\n")
 
-    lines.append(h3("5.2 Branching Dialogue System"))
-    bd = systems.get("branching_dialogue_spec", {})
-    lines.append(bd.get("description", "") + "\n")
-    lines.append(f"- {bold('Options per node:')} {bd.get('options_per_node', '')}")
-    lines.append(f"- {bold('Butuanon rule:')} {bd.get('butuanon_embedding_rule', '')}")
-    lines.append(f"- {bold('No-translation rule:')} {bd.get('no_translation_rule', '')}")
-    lines.append(f"- {bold('Data format:')} {bd.get('dialogue_data_format', '')}")
-    lines.append(f"- {bold('Unity notes:')} {bd.get('unity_implementation_notes', '')}\n")
+        lines.append(h3("5.3 Cultural Codex — Kodeks"))
+        kd = systems.get("kodeks_spec", {})
+        lines.append(kd.get("description", "") + "\n")
+        lines.append(f"- {bold('Logging trigger:')} {kd.get('logging_trigger', '')}")
+        lines.append(f"- {bold('When shown:')} {kd.get('when_shown_to_player', '')}")
+        lines.append(f"- {bold('Entry format:')} {kd.get('entry_format', '')}")
+        lines.append(f"- {bold('Save key:')} {code(kd.get('local_save_key', ''))}")
+        lines.append(f"- {bold('Unity notes:')} {kd.get('unity_implementation_notes', '')}\n")
 
-    lines.append(h3("5.3 Cultural Codex — Kodeks"))
-    kd = systems.get("kodeks_spec", {})
-    lines.append(kd.get("description", "") + "\n")
-    lines.append(f"- {bold('Logging trigger:')} {kd.get('logging_trigger', '')}")
-    lines.append(f"- {bold('When shown:')} {kd.get('when_shown_to_player', '')}")
-    lines.append(f"- {bold('Entry format:')} {kd.get('entry_format', '')}")
-    lines.append(f"- {bold('Save key:')} {code(kd.get('local_save_key', ''))}")
-    lines.append(f"- {bold('Unity notes:')} {kd.get('unity_implementation_notes', '')}\n")
+        lines.append(h3("5.4 Artifact Collection & Examination"))
+        af = systems.get("artifact_examination_spec", {})
+        lines.append(af.get("description", "") + "\n")
+        lines.append(f"- {bold('Demo scope:')} {af.get('demo_scope', '')}")
+        lines.append(f"- {bold('Examine screen:')} {af.get('examine_screen_content', '')}")
+        lines.append(f"- {bold('Kodeks log:')} {af.get('kodeks_log_on_examine', '')}")
+        lines.append(f"- {bold('Unity notes:')} {af.get('unity_implementation_notes', '')}\n")
 
-    lines.append(h3("5.4 Artifact Collection & Examination"))
-    af = systems.get("artifact_examination_spec", {})
-    lines.append(af.get("description", "") + "\n")
-    lines.append(f"- {bold('Demo scope:')} {af.get('demo_scope', '')}")
-    lines.append(f"- {bold('Examine screen:')} {af.get('examine_screen_content', '')}")
-    lines.append(f"- {bold('Kodeks log:')} {af.get('kodeks_log_on_examine', '')}")
-    lines.append(f"- {bold('Unity notes:')} {af.get('unity_implementation_notes', '')}\n")
+        lines.append(h3("5.5 Environmental Interaction Sequences"))
+        ei = systems.get("environmental_interaction_spec", {})
+        lines.append(ei.get("description", "") + "\n")
+        lines.append(f"- {bold('Demo implementation:')} {ei.get('demo_implementation', '')}")
+        lines.append(f"- {bold('No instructions:')} {ei.get('no_instructions_rule', '')}")
+        lines.append(f"- {bold('No timer:')} {ei.get('no_timer_rule', '')}")
+        lines.append(f"- {bold('No fail state:')} {ei.get('no_fail_state_rule', '')}")
+        lines.append(f"- {bold('Completion trigger:')} {ei.get('completion_trigger', '')}")
+        lines.append(f"- {bold('Unity notes:')} {ei.get('unity_implementation_notes', '')}\n")
 
-    lines.append(h3("5.5 Environmental Interaction Sequences"))
-    ei = systems.get("environmental_interaction_spec", {})
-    lines.append(ei.get("description", "") + "\n")
-    lines.append(f"- {bold('Demo implementation:')} {ei.get('demo_implementation', '')}")
-    lines.append(f"- {bold('No instructions:')} {ei.get('no_instructions_rule', '')}")
-    lines.append(f"- {bold('No timer:')} {ei.get('no_timer_rule', '')}")
-    lines.append(f"- {bold('No fail state:')} {ei.get('no_fail_state_rule', '')}")
-    lines.append(f"- {bold('Completion trigger:')} {ei.get('completion_trigger', '')}")
-    lines.append(f"- {bold('Unity notes:')} {ei.get('unity_implementation_notes', '')}\n")
+        lines.append(h3("5.6 Quest System"))
+        qs = systems.get("quest_system_spec", {})
+        lines.append(qs.get("description", "") + "\n")
+        lines.append(f"- {bold('Demo flow:')} {qs.get('demo_quest_flow', '')}")
+        lines.append(f"- {bold('Progress check:')} {qs.get('progress_check_logic', '')}")
+        lines.append(f"- {bold('Incomplete handling:')} {qs.get('incomplete_state_handling', '')}")
+        lines.append(f"- {bold('Save key:')} {code(qs.get('local_save_key', ''))}")
+        lines.append(f"- {bold('Unity notes:')} {qs.get('unity_implementation_notes', '')}\n")
 
-    lines.append(h3("5.6 Quest System"))
-    qs = systems.get("quest_system_spec", {})
-    lines.append(qs.get("description", "") + "\n")
-    lines.append(f"- {bold('Demo flow:')} {qs.get('demo_quest_flow', '')}")
-    lines.append(f"- {bold('Progress check:')} {qs.get('progress_check_logic', '')}")
-    lines.append(f"- {bold('Incomplete handling:')} {qs.get('incomplete_state_handling', '')}")
-    lines.append(f"- {bold('Save key:')} {code(qs.get('local_save_key', ''))}")
-    lines.append(f"- {bold('Unity notes:')} {qs.get('unity_implementation_notes', '')}\n")
+        lines.append(h3("Local Save Strategy"))
+        ls = systems.get("local_save_spec", {})
+        lines.append(f"{bold('Method:')} {ls.get('save_method', '')}\n")
+        lines.append(ls.get("description", "") + "\n")
+        lines.append(bold("Data saved:"))
+        for item in ls.get("data_saved", []):
+            lines.append(bullet(item))
+        lines.append(f"\n{bold('Save triggers:')} {ls.get('save_triggers', '')}\n")
 
-    lines.append(h3("Local Save Strategy"))
-    ls = systems.get("local_save_spec", {})
-    lines.append(f"{bold('Method:')} {ls.get('save_method', '')}\n")
-    lines.append(ls.get("description", "") + "\n")
-    lines.append(bold("Data saved:"))
-    for item in ls.get("data_saved", []):
-        lines.append(bullet(item))
-    lines.append(f"\n{bold('Save triggers:')} {ls.get('save_triggers', '')}\n")
-
-    lines.append(h3("System Communication Flows"))
-    for flow in systems.get("system_communication_flow", []):
-        lines.append(f"\n**{flow['scenario']}**")
-        lines.append(f"`{flow['flow']}`\n")
+        lines.append(h3("System Communication Flows"))
+        for flow in systems.get("system_communication_flow", []):
+            lines.append(f"\n**{flow.get('scenario', 'Communication Flow')}**")
+            lines.append(f"`{flow.get('flow', '')}`\n")
 
     lines.append(hr())
 
     # ── Level Design ─────────────────────────────────────────────────────────
     lines.append(h2("🗺️ Level Design — Demo Scene"))
+    if not level_design:
+        lines.append(blockquote("*(Level Design data unavailable or agent failed)*\n"))
+    else:
+        lines.append(h3(f"Scene: {level_design.get('scene_name', 'Demo Scene')}"))
+        lines.append(level_design.get("scene_description", "") + "\n")
+        lines.append(f"{bold('Dimensions:')} {level_design.get('scene_dimensions', '')}\n")
 
-    lines.append(h3(f"Scene: {level_design.get('scene_name', 'Demo Scene')}"))
-    lines.append(level_design.get("scene_description", "") + "\n")
-    lines.append(f"{bold('Dimensions:')} {level_design.get('scene_dimensions', '')}\n")
+        lines.append(h3("Tilemap Layers"))
+        layers = level_design.get("tilemap_layers", {})
+        for layer_name, description in layers.items():
+            lines.append(f"- {bold(str(layer_name).capitalize()+'  ')}: {description}")
+        lines.append("")
 
-    lines.append(h3("Tilemap Layers"))
-    layers = level_design.get("tilemap_layers", {})
-    for layer_name, description in layers.items():
-        lines.append(f"- {bold(layer_name.capitalize()+'  ')}: {description}")
-    lines.append("")
+        lines.append(h3("Player Spawn Point"))
+        spawn = level_design.get("player_spawn_point", {})
+        lines.append(f"*{spawn.get('description', '')}*")
+        lines.append(f"Coordinates: {code(spawn.get('tile_coordinates', ''))}\n")
 
-    lines.append(h3("Player Spawn Point"))
-    spawn = level_design.get("player_spawn_point", {})
-    lines.append(f"*{spawn.get('description', '')}*")
-    lines.append(f"Coordinates: {code(spawn.get('tile_coordinates', ''))}\n")
+        lines.append(h3("NPC Placements"))
+        for npc in level_design.get("npcs", []):
+            lines.append(f"\n**{npc.get('name', 'NPC')}** — {npc.get('position_description', '')}")
+            lines.append(f"- Coordinates: {code(npc.get('tile_coordinates', ''))}, facing {npc.get('facing_direction', 'Down')}")
+            lines.append(f"- Interaction radius: {npc.get('interaction_radius_tiles', 1.5)} tiles")
+        lines.append("")
 
-    lines.append(h3("NPC Placements"))
-    for npc in level_design.get("npcs", []):
-        lines.append(f"\n**{npc['name']}** — {npc['position_description']}")
-        lines.append(f"- Coordinates: {code(npc['tile_coordinates'])}, facing {npc['facing_direction']}")
-        lines.append(f"- Interaction radius: {npc['interaction_radius_tiles']} tiles")
-    lines.append("")
+        lines.append(h3("Interactive Objects"))
+        for obj in level_design.get("interactive_objects", []):
+            lines.append(f"\n**{obj.get('name', 'Object')}** ({obj.get('type', 'Interactive')})")
+            lines.append(f"- {obj.get('position_description', '')}")
+            lines.append(f"- Coordinates: {code(obj.get('tile_coordinates', ''))}, Layer: {obj.get('layer', 'Objects')}")
+            lines.append(f"- On tap: {obj.get('interaction_notes', '')}")
+        lines.append("")
 
-    lines.append(h3("Interactive Objects"))
-    for obj in level_design.get("interactive_objects", []):
-        lines.append(f"\n**{obj['name']}** ({obj['type']})")
-        lines.append(f"- {obj['position_description']}")
-        lines.append(f"- Coordinates: {code(obj['tile_coordinates'])}, Layer: {obj['layer']}")
-        lines.append(f"- On tap: {obj['interaction_notes']}")
-    lines.append("")
+        lines.append(h3("Environmental Interaction Puzzle"))
+        ep = level_design.get("environmental_puzzle", {})
+        lines.append(ep.get("description", "") + "\n")
+        lines.append(bold("Marker positions:"))
+        for pos in ep.get("marker_positions", []):
+            lines.append(bullet(pos))
+        lines.append(f"\n{bold('Correct order rationale (dev-only, not shown to player):')}")
+        lines.append(blockquote(ep.get("correct_order_rationale", "")))
+        lines.append(f"\n{bold('Completion effect:')} {ep.get('completion_effect', '')}\n")
 
-    lines.append(h3("Environmental Interaction Puzzle"))
-    ep = level_design.get("environmental_puzzle", {})
-    lines.append(ep.get("description", "") + "\n")
-    lines.append(bold("Marker positions:"))
-    for pos in ep.get("marker_positions", []):
-        lines.append(bullet(pos))
-    lines.append(f"\n{bold('Correct order rationale (dev-only, not shown to player):')}")
-    lines.append(blockquote(ep.get("correct_order_rationale", "")))
-    lines.append(f"\n{bold('Completion effect:')} {ep.get('completion_effect', '')}\n")
+        lines.append(h3("Environmental Storytelling"))
+        lines.append(level_design.get("environmental_storytelling_notes", "") + "\n")
 
-    lines.append(h3("Environmental Storytelling"))
-    lines.append(level_design.get("environmental_storytelling_notes", "") + "\n")
+        lines.append(h3("Visual Reference Notes (for pixel artist)"))
+        lines.append(level_design.get("visual_reference_notes", "") + "\n")
 
-    lines.append(h3("Visual Reference Notes (for pixel artist)"))
-    lines.append(level_design.get("visual_reference_notes", "") + "\n")
-
-    lines.append(h3("Unity Scene Setup Notes"))
-    lines.append(level_design.get("unity_scene_setup_notes", "") + "\n")
+        lines.append(h3("Unity Scene Setup Notes"))
+        lines.append(level_design.get("unity_scene_setup_notes", "") + "\n")
 
     lines.append(hr())
 
     # ── Art Direction ────────────────────────────────────────────────────────
     lines.append(h2("🎨 Art Direction — Pixel Art"))
+    if not art_direction:
+        lines.append(blockquote("*(Art Direction data unavailable or agent failed)*\n"))
+    else:
+        lines.append(h3("Art Style"))
+        lines.append(art_direction.get("art_style_statement", "") + "\n")
 
-    lines.append(h3("Art Style"))
-    lines.append(art_direction.get("art_style_statement", "") + "\n")
+        lines.append(h3("Pixel Art Specifications"))
+        specs = art_direction.get("pixel_art_specs", {})
+        lines.append("| Parameter | Value |")
+        lines.append("|-----------|-------|")
+        lines.append(f"| Tool | {specs.get('tool', 'Aseprite 1.3.15')} |")
+        lines.append(f"| Tile size | {specs.get('tile_size_px', '16x16')} px |")
+        lines.append(f"| Character size | {specs.get('character_size_px', '16x32')} px |")
+        lines.append(f"| Palette | {specs.get('palette_size', 16)} colors |")
+        lines.append(f"| Export | {specs.get('export_format', 'PNG')} |")
+        lines.append(f"| Unity PPU | {specs.get('unity_ppu', 16)} |")
+        lines.append(f"| Filter mode | {specs.get('unity_filter_mode', 'Point')} |")
+        lines.append(f"| Camera | {specs.get('camera_perspective', '2D top-down')} |")
+        lines.append("")
 
-    lines.append(h3("Pixel Art Specifications"))
-    specs = art_direction.get("pixel_art_specs", {})
-    lines.append("| Parameter | Value |")
-    lines.append("|-----------|-------|")
-    lines.append(f"| Tool | {specs.get('tool', '')} |")
-    lines.append(f"| Tile size | {specs.get('tile_size_px', '')} px |")
-    lines.append(f"| Character size | {specs.get('character_size_px', '')} px |")
-    lines.append(f"| Palette | {specs.get('palette_size', '')} colors |")
-    lines.append(f"| Export | {specs.get('export_format', '')} |")
-    lines.append(f"| Unity PPU | {specs.get('unity_ppu', '')} |")
-    lines.append(f"| Filter mode | {specs.get('unity_filter_mode', '')} |")
-    lines.append(f"| Camera | {specs.get('camera_perspective', '')} |")
-    lines.append("")
+        lines.append(h3("16-Color Palette"))
+        lines.append("| # | Hex | Name | Usage |")
+        lines.append("|---|-----|------|-------|")
+        for i, color in enumerate(art_direction.get("color_palette_16", [])):
+            c_idx = color.get("index", i)
+            c_hex = color.get("hex", "#000000")
+            c_name = color.get("name", "Color")
+            c_usage = color.get("usage", "")
+            lines.append(f"| {c_idx} | `{c_hex}` | {c_name} | {c_usage} |")
+        lines.append("")
 
-    lines.append(h3("16-Color Palette"))
-    lines.append("| # | Hex | Name | Usage |")
-    lines.append("|---|-----|------|-------|")
-    for color in art_direction.get("color_palette_16", []):
-        lines.append(f"| {color['index']} | `{color['hex']}` | {color['name']} | {color['usage']} |")
-    lines.append("")
+        lines.append(h3("Palette Groups"))
+        groups = art_direction.get("palette_groups", {})
+        for group_name, colors in groups.items():
+            color_str = "  ".join([f"`{c}`" for c in colors]) if isinstance(colors, list) else str(colors)
+            lines.append(f"- {bold(str(group_name).replace('_', ' ').title())}: {color_str}")
+        lines.append("")
 
-    lines.append(h3("Palette Groups"))
-    groups = art_direction.get("palette_groups", {})
-    for group_name, colors in groups.items():
-        color_str = "  ".join([f"`{c}`" for c in colors])
-        lines.append(f"- {bold(group_name.replace('_', ' ').title())}: {color_str}")
-    lines.append("")
+        lines.append(h3("Character Sprite Guide"))
+        csg = art_direction.get("character_sprite_guide", {})
+        lines.append(f"{bold('Manaog (Player):')} {csg.get('manaog_player', '')}\n")
+        lines.append(f"{bold('NPC design principles:')} {csg.get('npc_design_principles', '')}\n")
+        anim = csg.get("animation_frames_per_action", {})
+        lines.append(f"{bold('Animation frames:')} Idle: {anim.get('idle', '')} | Walk: {anim.get('walk', '')} | Interact: {anim.get('interact', '')}\n")
+        lines.append(f"{bold('Cultural clothing notes:')} {csg.get('cultural_clothing_notes', '')}\n")
 
-    lines.append(h3("Character Sprite Guide"))
-    csg = art_direction.get("character_sprite_guide", {})
-    lines.append(f"{bold('Manaog (Player):')} {csg.get('manaog_player', '')}\n")
-    lines.append(f"{bold('NPC design principles:')} {csg.get('npc_design_principles', '')}\n")
-    anim = csg.get("animation_frames_per_action", {})
-    lines.append(f"{bold('Animation frames:')} Idle: {anim.get('idle', '')} | Walk: {anim.get('walk', '')} | Interact: {anim.get('interact', '')}\n")
-    lines.append(f"{bold('Cultural clothing notes:')} {csg.get('cultural_clothing_notes', '')}\n")
+        lines.append(h3("Tilemap Visual Guide"))
+        tvg = art_direction.get("tilemap_visual_guide", {})
+        for layer, desc in tvg.items():
+            lines.append(f"- {bold(str(layer).replace('_', ' ').title())}: {desc}")
+        lines.append("")
 
-    lines.append(h3("Tilemap Visual Guide"))
-    tvg = art_direction.get("tilemap_visual_guide", {})
-    for layer, desc in tvg.items():
-        lines.append(f"- {bold(layer.replace('_', ' ').title())}: {desc}")
-    lines.append("")
+        lines.append(h3("UI Aesthetic"))
+        lines.append(art_direction.get("ui_aesthetic", "") + "\n")
 
-    lines.append(h3("UI Aesthetic"))
-    lines.append(art_direction.get("ui_aesthetic", "") + "\n")
+        lines.append(h3("URP 2D Lighting Notes"))
+        lines.append(art_direction.get("unity_lighting_notes", "") + "\n")
 
-    lines.append(h3("URP 2D Lighting Notes"))
-    lines.append(art_direction.get("unity_lighting_notes", "") + "\n")
+        lines.append(h3("⚠️ Cultural Accuracy Notes (Butuan-specific)"))
+        lines.append(f"> {art_direction.get('cultural_accuracy_notes', '')}\n")
 
-    lines.append(h3("⚠️ Cultural Accuracy Notes (Butuan-specific)"))
-    lines.append(f"> {art_direction.get('cultural_accuracy_notes', '')}\n")
+        lines.append(h3("Visual References"))
+        for ref in art_direction.get("visual_references", []):
+            lines.append(bullet(ref))
+        lines.append("")
 
-    lines.append(h3("Visual References"))
-    for ref in art_direction.get("visual_references", []):
-        lines.append(bullet(ref))
-    lines.append("")
-
-    lines.append(h3("Aseprite Workflow Notes"))
-    lines.append(art_direction.get("aseprite_workflow_notes", "") + "\n")
+        lines.append(h3("Aseprite Workflow Notes"))
+        lines.append(art_direction.get("aseprite_workflow_notes", "") + "\n")
 
     lines.append(hr())
 
     # ── Unity Architecture ────────────────────────────────────────────────────
     lines.append(h2("🏗️ Unity C# Architecture"))
+    if not unity_architecture:
+        lines.append(blockquote("*(Unity Architecture data unavailable or agent failed)*\n"))
+    else:
+        lines.append(h3("Overview"))
+        lines.append(unity_architecture.get("architecture_overview", "") + "\n")
 
-    lines.append(h3("Overview"))
-    lines.append(unity_architecture.get("architecture_overview", "") + "\n")
+        lines.append(h3("Core Systems"))
+        for system in unity_architecture.get("systems", []):
+            s_class = system.get("class_name", "SystemClass")
+            s_name = system.get("system_name", "System")
+            lines.append(h4(f"`{s_class}` — {s_name}"))
+            lines.append(f"*{system.get('responsibility', '')}*\n")
+            lines.append(bold("Key fields:"))
+            for field in system.get("key_fields", []):
+                lines.append(bullet(field))
+            lines.append("")
+            lines.append(bold("Key methods:"))
+            for method in system.get("key_methods", []):
+                lines.append(bullet(f"`{method}`"))
+            lines.append("")
+            lines.append(bold("Events fired:"))
+            for event in system.get("events_fired", []):
+                lines.append(bullet(event))
+            lines.append("")
+            lines.append(bold("Listens to:"))
+            for event in system.get("events_listened_to", []):
+                lines.append(bullet(event))
+            lines.append("")
+            lines.append(bold("Required Unity components:"))
+            for comp in system.get("unity_components_required", []):
+                lines.append(bullet(comp))
+            if system.get("notes"):
+                lines.append(f"\n{blockquote(system['notes'])}")
+            lines.append("")
 
-    lines.append(h3("Core Systems"))
-    for system in unity_architecture.get("systems", []):
-        lines.append(h4(f"`{system['class_name']}` — {system['system_name']}"))
-        lines.append(f"*{system['responsibility']}*\n")
-        lines.append(bold("Key fields:"))
-        for field in system.get("key_fields", []):
-            lines.append(bullet(field))
+        lines.append(h3("Scene Management"))
+        sm = unity_architecture.get("scene_management", {})
+        lines.append(bold("Scenes:"))
+        for scene in sm.get("scenes_list", []):
+            lines.append(bullet(scene))
+        lines.append(f"\n{bold('Main Menu → Demo:')} {sm.get('main_menu_to_demo', '')}")
+        lines.append(f"\n{bold('Demo → Summary:')} {sm.get('demo_to_summary', '')}")
+        lines.append(f"\n{bold('Summary → Main Menu:')} {sm.get('summary_to_main_menu', '')}\n")
+
+        lines.append(h3("Local Save Design"))
+        lsd = unity_architecture.get("local_save_design", {})
+        lines.append(f"{bold('Method:')} {lsd.get('chosen_method', '')}")
+        lines.append(f"\n{lsd.get('justification', '')}\n")
+        schema = lsd.get("save_data_schema", {})
+        lines.append(bold("Data schema:"))
+        lines.append(f"- {bold('Kodeks entries:')} {schema.get('kodeks_entries', '')}")
+        lines.append(f"- {bold('Quest state:')} {schema.get('quest_state', '')}")
+        lines.append(f"- {bold('Collected artifacts:')} {schema.get('collected_artifacts', '')}")
+        lines.append(f"\n{bold('Save class:')} {code(lsd.get('save_class_name', ''))}")
+        lines.append(f"\n{bold('Save trigger:')} {lsd.get('save_trigger', '')}\n")
+
+        lines.append(h3("Touch Input Architecture"))
+        ti = unity_architecture.get("touch_input_architecture", {})
+        lines.append(f"- {bold('Package:')} {code(ti.get('unity_package', ''))}")
+        lines.append(f"- {bold('Tap detection:')} {ti.get('tap_detection_approach', '')}")
+        lines.append(f"- {bold('Raycast:')} {ti.get('raycast_approach', '')}")
+        lines.append(f"- {bold('Move trigger:')} {ti.get('move_trigger', '')}")
+        lines.append(f"- {bold('Interact trigger:')} {ti.get('interact_trigger', '')}\n")
+
+        lines.append(h3("DOTween UI Patterns"))
+        for pattern in unity_architecture.get("dotween_ui_patterns", []):
+            lines.append(f"\n**{pattern.get('panel', 'Panel')}**")
+            lines.append(f"- Show: `{pattern.get('show_tween', '')}`")
+            lines.append(f"- Hide: `{pattern.get('hide_tween', '')}`")
+            if pattern.get("notes"):
+                lines.append(f"- {pattern['notes']}")
         lines.append("")
-        lines.append(bold("Key methods:"))
-        for method in system.get("key_methods", []):
-            lines.append(bullet(f"`{method}`"))
+
+        lines.append(h3("Dialogue Data Format"))
+        ddf = unity_architecture.get("dialogue_data_format", {})
+        lines.append(f"{bold('Storage:')} {ddf.get('storage', '')}")
+        lines.append(f"\n{ddf.get('structure_description', '')}")
+        lines.append(f"\n{bold('Butuanon embedding:')} {ddf.get('butuanon_embedding_approach', '')}\n")
+
+        lines.append(h3("Kodeks Logging Pipeline"))
+        kp = unity_architecture.get("kodeks_pipeline", {})
+        lines.append(f"- {bold('Log trigger:')} {kp.get('log_trigger', '')}")
+        lines.append(f"- {bold('In-session storage:')} {kp.get('storage_during_session', '')}")
+        lines.append(f"- {bold('Display timing:')} {kp.get('display_timing', '')}")
+        lines.append(f"- {bold('Panel architecture:')} {kp.get('panel_architecture', '')}\n")
+
+        lines.append(h3("Data Flow Scenarios"))
+        for scenario in unity_architecture.get("data_flow_scenarios", []):
+            lines.append(f"\n**{scenario.get('scenario', 'Scenario')}**")
+            for i, step in enumerate(scenario.get("step_by_step", []), 1):
+                lines.append(f"{i}. {step}")
         lines.append("")
-        lines.append(bold("Events fired:"))
-        for event in system.get("events_fired", []):
-            lines.append(bullet(event))
+
+        lines.append(h3("Recommended Folder Structure"))
+        fs = unity_architecture.get("folder_structure", {})
+        for category, items in fs.items():
+            lines.append(f"\n{bold(str(category).capitalize()+'/')}")
+            if isinstance(items, list):
+                for item in items:
+                    lines.append(bullet(item))
+            else:
+                lines.append(bullet(str(items)))
         lines.append("")
-        lines.append(bold("Listens to:"))
-        for event in system.get("events_listened_to", []):
-            lines.append(bullet(event))
-        lines.append("")
-        lines.append(bold("Required Unity components:"))
-        for comp in system.get("unity_components_required", []):
-            lines.append(bullet(comp))
-        if system.get("notes"):
-            lines.append(f"\n{blockquote(system['notes'])}")
-        lines.append("")
-
-    lines.append(h3("Scene Management"))
-    sm = unity_architecture.get("scene_management", {})
-    lines.append(bold("Scenes:"))
-    for scene in sm.get("scenes_list", []):
-        lines.append(bullet(scene))
-    lines.append(f"\n{bold('Main Menu → Demo:')} {sm.get('main_menu_to_demo', '')}")
-    lines.append(f"\n{bold('Demo → Summary:')} {sm.get('demo_to_summary', '')}")
-    lines.append(f"\n{bold('Summary → Main Menu:')} {sm.get('summary_to_main_menu', '')}\n")
-
-    lines.append(h3("Local Save Design"))
-    lsd = unity_architecture.get("local_save_design", {})
-    lines.append(f"{bold('Method:')} {lsd.get('chosen_method', '')}")
-    lines.append(f"\n{lsd.get('justification', '')}\n")
-    schema = lsd.get("save_data_schema", {})
-    lines.append(bold("Data schema:"))
-    lines.append(f"- {bold('Kodeks entries:')} {schema.get('kodeks_entries', '')}")
-    lines.append(f"- {bold('Quest state:')} {schema.get('quest_state', '')}")
-    lines.append(f"- {bold('Collected artifacts:')} {schema.get('collected_artifacts', '')}")
-    lines.append(f"\n{bold('Save class:')} {code(lsd.get('save_class_name', ''))}")
-    lines.append(f"\n{bold('Save trigger:')} {lsd.get('save_trigger', '')}\n")
-
-    lines.append(h3("Touch Input Architecture"))
-    ti = unity_architecture.get("touch_input_architecture", {})
-    lines.append(f"- {bold('Package:')} {code(ti.get('unity_package', ''))}")
-    lines.append(f"- {bold('Tap detection:')} {ti.get('tap_detection_approach', '')}")
-    lines.append(f"- {bold('Raycast:')} {ti.get('raycast_approach', '')}")
-    lines.append(f"- {bold('Move trigger:')} {ti.get('move_trigger', '')}")
-    lines.append(f"- {bold('Interact trigger:')} {ti.get('interact_trigger', '')}\n")
-
-    lines.append(h3("DOTween UI Patterns"))
-    for pattern in unity_architecture.get("dotween_ui_patterns", []):
-        lines.append(f"\n**{pattern['panel']}**")
-        lines.append(f"- Show: `{pattern['show_tween']}`")
-        lines.append(f"- Hide: `{pattern['hide_tween']}`")
-        if pattern.get("notes"):
-            lines.append(f"- {pattern['notes']}")
-    lines.append("")
-
-    lines.append(h3("Dialogue Data Format"))
-    ddf = unity_architecture.get("dialogue_data_format", {})
-    lines.append(f"{bold('Storage:')} {ddf.get('storage', '')}")
-    lines.append(f"\n{ddf.get('structure_description', '')}")
-    lines.append(f"\n{bold('Butuanon embedding:')} {ddf.get('butuanon_embedding_approach', '')}\n")
-
-    lines.append(h3("Kodeks Logging Pipeline"))
-    kp = unity_architecture.get("kodeks_pipeline", {})
-    lines.append(f"- {bold('Log trigger:')} {kp.get('log_trigger', '')}")
-    lines.append(f"- {bold('In-session storage:')} {kp.get('storage_during_session', '')}")
-    lines.append(f"- {bold('Display timing:')} {kp.get('display_timing', '')}")
-    lines.append(f"- {bold('Panel architecture:')} {kp.get('panel_architecture', '')}\n")
-
-    lines.append(h3("Data Flow Scenarios"))
-    for scenario in unity_architecture.get("data_flow_scenarios", []):
-        lines.append(f"\n**{scenario['scenario']}**")
-        for i, step in enumerate(scenario.get("step_by_step", []), 1):
-            lines.append(f"{i}. {step}")
-    lines.append("")
-
-    lines.append(h3("Recommended Folder Structure"))
-    fs = unity_architecture.get("folder_structure", {})
-    for category, items in fs.items():
-        lines.append(f"\n{bold(category.capitalize()+'/')}")
-        for item in items:
-            lines.append(bullet(item))
-    lines.append("")
 
     lines.append(hr())
     lines.append("\n*This Game Design Document was generated by the SugiHandi Agent Pipeline.*\n")
@@ -535,6 +566,22 @@ async def run_pipeline() -> None:
     gdd_path = OUTPUT_DIR / "game_design_document.md"
     with open(gdd_path, "w", encoding="utf-8") as f:
         f.write(gdd_markdown)
+
+    # ── Master Schema Validation ─────────────────────────────────────────────
+    if not errors:
+        try:
+            gdd_model = GameDesignDocument(
+                generated_at=generated_at,
+                narrative=narrative,
+                systems=systems,
+                level_design=level_design,
+                art_direction=art_direction,
+                unity_architecture=unity_architecture,
+            )
+            save_json(gdd_model.model_dump(), "game_design_document.json")
+            print("   ✅ Master GameDesignDocument validated against schemas.py")
+        except Exception as ve:
+            print(f"   ⚠️ Master GameDesignDocument validation warning: {ve}")
 
     # ── Done ─────────────────────────────────────────────────────────────────
     print("\n" + "═" * 60)

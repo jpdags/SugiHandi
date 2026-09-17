@@ -14,13 +14,16 @@ This agent generates the detailed mechanics specification for the Unity demo bui
 
 import asyncio
 import json
-import re
 import os
 from pathlib import Path
 
 from dotenv import load_dotenv
 from google.antigravity import Agent, LocalAgentConfig
 from google.antigravity.types import TemplatedSystemInstructions
+
+from schemas import SystemsDesign
+from utils import extract_json, get_default_retry_config, run_with_timeout_and_retry, save_raw_response
+from validators import validate_demo_scope
 
 load_dotenv(Path(__file__).parent / ".env")
 
@@ -150,42 +153,46 @@ Output ONLY the JSON object. No markdown. No explanation. No code fences.
 """
 
 
-def extract_json(text: str) -> dict:
-    text = text.strip()
-    text = re.sub(r'^```(?:json)?\s*', '', text, flags=re.MULTILINE)
-    text = re.sub(r'\s*```$', '', text, flags=re.MULTILINE)
-    text = text.strip()
-    start = text.find('{')
-    if start == -1:
-        raise ValueError("No JSON object found in response")
-    depth = 0
-    end = -1
-    for i in range(start, len(text)):
-        if text[i] == '{':
-            depth += 1
-        elif text[i] == '}':
-            depth -= 1
-            if depth == 0:
-                end = i + 1
-                break
-    if end == -1:
-        raise ValueError("Malformed JSON — no matching closing brace")
-    return json.loads(text[start:end])
-
-
-async def run_systems_agent() -> dict:
-    """Run the systems specialist agent and return structured output."""
+async def _execute_systems_agent() -> dict:
+    """Core systems agent execution with native schema & fallback extraction."""
     config = LocalAgentConfig(
         system_instructions=TemplatedSystemInstructions(identity=IDENTITY),
+        response_schema=SystemsDesign,
+        retry_config=get_default_retry_config(),
     )
 
     async with Agent(config) as agent:
         print("[Systems Agent] Generating SugiHandi mechanics and interaction design...")
         response = await agent.chat(SYSTEMS_PROMPT)
-        text = await response.text()
-        data = extract_json(text)
+
+        structured = await response.structured_output()
+        if structured:
+            if isinstance(structured, dict):
+                data = structured
+            else:
+                data = structured.model_dump() if hasattr(structured, "model_dump") else dict(structured)
+            save_raw_response("systems", json.dumps(data, indent=2, ensure_ascii=False))
+        else:
+            text = await response.text()
+            save_raw_response("systems", text)
+            data = extract_json(text)
+
+        validated = SystemsDesign.model_validate(data)
+        validated_dict = validated.model_dump()
+        validate_demo_scope("systems", validated_dict)
         print("[Systems Agent] Complete")
-        return data
+        return validated_dict
+
+
+async def run_systems_agent(timeout_seconds: float = 120.0, max_attempts: int = 2) -> dict:
+    """Run the systems specialist agent with timeout, retry backoff, and schema validation."""
+    return await run_with_timeout_and_retry(
+        agent_name="Systems Agent",
+        action=_execute_systems_agent,
+        schema_cls=SystemsDesign,
+        timeout_seconds=timeout_seconds,
+        max_attempts=max_attempts,
+    )
 
 
 if __name__ == "__main__":
